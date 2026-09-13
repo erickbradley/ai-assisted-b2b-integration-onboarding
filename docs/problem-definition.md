@@ -1,7 +1,11 @@
 # AI-Assisted B2B Integration Onboarding Platform
-## Problem Definition
+## Problem definition
 
-### 1. Business Context
+Updated: 2026-09-13
+
+This document describes the business problem and current v1 scope. The [v1 functional requirements](functional-requirements-v1.md) define the detailed behavior and acceptance scenarios.
+
+### 1. Business context
 
 B2B software platforms often need to ingest data from many customer or partner systems. Although those systems may represent similar business concepts, their source feeds frequently differ in schema structure, field names, nesting, data representation, and semantics.
 
@@ -21,7 +25,7 @@ The project is intentionally framed as a general B2B integration problem rather 
 
 ---
 
-### 2. Problem Statement
+### 2. Problem statement
 
 Onboarding diverse customer source feeds requires too much specialized technical effort.
 
@@ -35,7 +39,7 @@ This creates three related business problems:
 
 ---
 
-### 3. Desired Outcome
+### 3. Desired outcome
 
 The platform should reduce the specialized effort required to onboard a new source feed while maintaining human control over decisions that affect runtime processing.
 
@@ -49,312 +53,199 @@ The project will demonstrate the technical capability required to support this m
 
 ---
 
-### 4. Primary Users and Stakeholders
+### 4. Primary users and stakeholders
 
-The primary v1 user is a **Solution/Implementation Engineer** responsible for onboarding customer integrations.
+The primary business persona is a **Solution/Implementation Engineer** responsible for onboarding customer integrations. This includes people working under titles such as Solution Engineer, Integration Engineer, or Implementation Engineer.
 
-This is intentionally a broad role definition rather than a distinction among titles such as Solution Engineer, Integration Engineer, or Implementation Engineer.
+The user is expected to understand source fields and data semantics, review proposed mappings and transformed previews, provide written revision guidance, and decide whether to confirm a mapping. Direct editing of mapping rules is outside the v1 interaction.
 
-The user is expected to be technically capable of:
+The public PoC represents this persona through a **demo user**, who uploads files, reviews and confirms mappings, inspects results, and exports rejected records.
 
-- inspecting source payloads;
-- understanding schemas and data semantics;
-- reviewing proposed mappings;
-- modifying mappings and simple transformations;
-- reviewing validation findings;
-- and determining whether a mapping is appropriate for runtime use.
+The **integration service provider** owns approved mapping definitions, provides the canonical Company model, and establishes demo limits.
 
-Complex or unusual cases may still require escalation to deeper engineering expertise. The objective is to reduce how frequently such specialized intervention is necessary, not eliminate engineering involvement entirely.
+v1 uses lightweight demo identity. Enterprise registration, identity administration, authorization roles, and approval hierarchies are outside scope. Human confirmation is required, but there is no separate Approver role in v1.
 
-#### Approver role
+Complex or unusual cases may still require deeper engineering expertise. The objective is to reduce how frequently such intervention is necessary, not eliminate engineering involvement entirely.
 
-The system also defines an **Approver** authorization role.
+### 5. Primary product
 
-An organization can assign this role according to its own operating model. The same Solution/Implementation Engineer may perform both mapping review and approval, or approval authority may be assigned separately.
+The primary product capability is **source-data onboarding through reusable mappings**.
 
-This allows the architecture to support separation of duties without requiring a specific organizational workflow in v1.
+A representative processing flow is:
 
----
+> **Company-data file → compatible approved mapping or AI proposal → human confirmation → deterministic conversion to the canonical Company model**
 
-### 5. Primary Product
+Mapping discovery precedes AI inference. The system searches the current user's approved mappings newest-to-oldest, then shared approved mappings newest-to-oldest, selecting the first compatible candidate.
 
-The primary product capability is **source-feed onboarding**.
+A compatible mapping supports complete and unambiguous conversion to the current canonical model. Exact structural identity is not required, and extra source fields may remain unmapped. Missing information required by the model makes a mapping incompatible; the system must not fabricate source values.
 
-One onboarding case represents:
+Approved mappings are reusable across uploads and users rather than being limited to one source feed. AI assistance, audit reporting, and rejected-record recovery support this onboarding capability.
 
-> **One source system/data feed → one approved, versioned mapping → the canonical model**
+### 6. v1 source scope
 
-AI assistance, runtime normalization, and remediation support this onboarding workflow but are not themselves the primary product.
+v1 demonstrates onboarding through **manual uploads of company-data files**.
 
----
+- CSV is required.
+- JSON is a non-blocking stretch goal.
+- YAML is deferred.
+- Scheduled, API/SDK, and event-triggered ingestion are outside v1.
 
-### 6. v1 Source Scope
+The demo rejects unsupported, malformed, empty, or oversized files with useful errors. The operator-configured record limit starts at 50 data records per file; a CSV header does not count. Oversized files are rejected before mapping search or AI inference.
 
-v1 will demonstrate onboarding using **three fictional JSON webhook source feeds**.
+An editable synthetic CSV provides the starting point for exploration. A JSON sample is provided only if JSON support ships. v1 does not require three predefined feeds or webhook sources.
 
-The sources will contain meaningful differences in:
+### 7. Mapping and transformation scope
 
-- field naming;
-- nesting and structure;
-- semantics;
-- representation of common values;
-- and simple transformation requirements.
+v1 demonstrates source-to-canonical field mapping and deterministic transformation governed by a human-confirmed mapping definition.
 
-JSON webhook payloads are the only source format implemented in v1.
+The review presents mapping rules, transformed sample records, unmapped source fields, and the mapping and canonical-model versions. Users request changes through written hints for AI revision rather than editing rules directly.
 
-The following are explicitly outside the v1 implementation:
+The detailed supported transformation operations and validation rules remain to be specified against the canonical Company model. Any permitted defaults must respect the requirement not to fabricate missing source values.
 
-- CSV;
-- XML;
-- EDI;
-- flat-file/batch ingestion;
-- and other source or transport formats.
+Preview computation supports review before confirmation. Applying a mapping to process and store a run requires human confirmation; the functional requirements should distinguish this preview from the confirmed processing run.
 
-These can be discussed as future extensions.
+The project remains a bounded onboarding demonstration rather than a general-purpose ETL or arbitrary transformation-code platform.
 
----
+### 8. Canonical data model
 
-### 7. Mapping and Transformation Scope
+v1 converts company-data records into a **canonical Company model** supplied by the integration service provider.
 
-v1 supports:
+Every mapping records the canonical-model version against which it was approved. When that version changes, mappings approved against earlier versions become ineligible until revalidated. Historical mappings remain available for audit.
 
-- direct field-to-field mappings;
-- nested field extraction;
-- simple value or enum translation;
-- date/time formatting;
-- default values;
-- and similarly bounded deterministic transformations.
+Exact Company fields and validation rules remain design decisions. Canonical-model administration and automated mapping revalidation are outside v1.
 
-Complex transformation logic is outside v1, including capabilities such as:
+The earlier generic event envelope and `IntegrationFailure` payload are superseded and are not v1 implementation targets.
 
-- sophisticated conditional processing;
-- multi-record aggregation;
-- complex calculations;
-- arbitrary user-defined transformation code;
-- or a general-purpose ETL/transformation engine.
+### 9. AI-assisted onboarding workflow
 
-The intent is to demonstrate meaningful integration mapping without turning the project into a full transformation platform.
+A representative v1 workflow is:
 
----
+1. The demo user uploads a company-data file.
+2. The platform validates its format, data presence, and record count.
+3. It searches approved mappings, checking the current user's mappings before shared mappings.
+4. If no compatible mapping exists, AI proposes a mapping or explains why it cannot produce a complete and unambiguous proposal.
+5. The user reviews mapping rules, transformed samples, unmapped fields, and version information.
+6. The user confirms the mapping, discards the upload, or requests an AI revision with written hints while attempts remain.
+7. Each approved mapping version becomes immediately reusable across users.
+8. The platform processes the file deterministically using the confirmed mapping and the user's partial-conversion setting.
+9. The user inspects results and audit information, then pursues bounded recovery or export for rejected records.
 
-### 8. Canonical Data Model
+The platform enforces an operator-set AI retry limit and shows remaining attempts. At the limit, the user may confirm an acceptable latest proposal or discard the upload. The numerical limit depends on model choice, inference cost, and the demo cost ceiling.
 
-v1 will use:
+AI recommends mapping configuration. It does not independently decide how individual records should be transformed during an approved run.
 
-1. a **generic, extensible canonical event envelope**; and
-2. a specific **`IntegrationFailure` canonical payload**.
+### 10. Mapping reuse and processing boundaries
 
-The event envelope establishes a reusable pattern for supporting additional canonical event types in the future.
+Approved mapping definitions are owned by the integration service provider and automatically become reusable across users. Shared definitions must exclude source records, sample values, user prompts, user identity, and private audit history.
 
-Only `IntegrationFailure` is implemented as a complete event type in v1.
+Compatible mapping versions remain searchable newest-to-oldest, including older versions when newer versions do not match. Normal versioning does not require a separate active/inactive state.
 
-The representative business consequence of an integration failure is that customer data can become stale, incomplete, or unavailable until integration processing resumes.
+Each processing run must be deterministic and traceable to its confirmed mapping and canonical-model versions.
 
----
+Before processing, the user controls **Allow partial conversion**, which defaults to On:
 
-### 9. AI-Assisted Onboarding Workflow
+- With partial conversion enabled, valid records are transformed and stored; rejected records receive failure reasons.
+- With partial conversion disabled, any record failure causes the whole run to fail, and no transformed results from that run are stored. The failure is still audited.
 
-A representative v1 onboarding workflow is:
+File-level audit information records what was processed, when, by whom, the mapping rules and versions used, and accepted/rejected counts. Record-level audit information preserves before-conversion fields, outcomes, and rejection reasons. Proprietary record data remains private to the user's workspace and subject to retention limits.
 
-1. A Solution/Implementation Engineer selects or creates a source onboarding case.
-2. A representative JSON payload from the source is supplied.
-3. The platform analyzes the source structure and content.
-4. AI assists by proposing:
-   - source-to-canonical field mappings;
-   - simple transformations where appropriate;
-   - validation checks;
-   - and findings or potential readiness issues.
-5. The user reviews the recommendations.
-6. The user can modify mappings or transformations.
-7. Validation is performed against the proposed mapping.
-8. An authorized Approver explicitly approves the mapping.
-9. The approved mapping is stored as a versioned configuration.
-10. Runtime processing subsequently uses that approved mapping deterministically.
+Each run has an immutable outcome: **Full Success/Complete**, **Partial Success/Complete**, or **Total Failure**. Later recovery creates a linked run with its own audit and outcome; it does not change the original run's status.
 
-AI therefore assists the **design-time/onboarding process**.
+### 11. Bounded rejected-record recovery
 
-AI does **not** dynamically determine production mappings for individual runtime events.
+v1 supports bounded recovery of rejected company-data records.
 
----
+Before recovery, a rejection is classified as potentially mapping-correctable or an unrecoverable source-data-quality failure.
 
-### 10. Runtime Processing Boundary
+- Mapping-correctable failures first use a search for another compatible approved mapping.
+- If no approved mapping resolves the failure, the user may request AI reevaluation within configured usage limits.
+- Any alternate or AI-revised mapping returns to human review and confirmation before application.
+- Unrecoverable source-data failures bypass mapping search and AI and proceed to export.
+- If recovery fails or is declined, the user can export the original rejected records in their input format.
 
-Once a mapping has been approved, incoming synthetic runtime events use the corresponding approved mapping version.
+Rejected-record retention is bounded. Time and storage limits will be defined with nonfunctional requirements and the cost model.
 
-Runtime behavior must therefore be:
+This recovery flow replaces the earlier simulated downstream API replay demonstration. The primary business thesis remains reducing onboarding effort through mapping assistance and reuse.
 
-- deterministic;
-- traceable to a specific approved mapping version;
-- independent of an AI model deciding how an individual event should be interpreted;
-- and capable of preserving enough provenance to explain how the canonical event was produced.
+### 12. Public demo model
 
-This separation is intentional:
+The portfolio demonstration lets a reviewer explore the platform interactively without presenting the PoC as a production SaaS application.
 
-> **AI can recommend the configuration; approved configuration controls runtime behavior.**
+The upload screen provides an editable synthetic CSV and explains the supported format, record limit, and synthetic-data-only guidance. Visitors download and optionally edit the sample, then upload it. There is no separate in-app sample runner.
 
----
+The sample and demo state must demonstrate both AI proposal when no mapping matches and approved-mapping reuse on a later compatible upload. Visitors can also explore unmapped fields, transformation failures, partial conversion, recovery, and export.
 
-### 11. Bounded Remediation
+Human review, version information, audit visibility, and private workspace data support the demonstration. Detailed identity, isolation, retention, and cost controls remain architecture and nonfunctional requirements work.
 
-v1 will also demonstrate a secondary **bounded-remediation** capability.
+A running-conversion visualization is optional and must not block v1 completion.
 
-For the representative `IntegrationFailure` event, the platform may determine whether the failure is eligible for an automated replay against a simulated downstream integration API.
+### 13. v1 success definition
 
-The remediation capability must operate only within predefined boundaries.
+v1 succeeds when it demonstrates that:
 
-Possible outcomes include:
+> **Company-data files can be onboarded through approved-mapping reuse or AI-assisted proposals, reviewed and confirmed by a human, and converted deterministically into the canonical Company model with auditable outcomes and bounded recovery of rejected records.**
 
-- eligible failure → replay attempted → replay succeeds;
-- eligible failure → replay attempted → replay fails;
-- ineligible failure → no automatic replay;
-- or an otherwise unresolved condition → route for human attention.
+The functional requirements define the acceptance scenarios, including intake validation, mapping search order, human confirmation, version compatibility, partial conversion, linked recovery runs, export, and enforced limits.
 
-Bounded remediation is a supporting demonstration capability.
+This is a demonstrated-capability success criterion. The PoC does not claim a measured reduction in engineering effort, onboarding time, headcount, or production costs. Those remain business hypotheses for a real deployment to validate.
 
-**The success of the core project thesis does not depend on automated remediation succeeding.**
+### 14. Explicit v1 exclusions
 
-The primary business thesis remains source onboarding and deterministic normalization.
+v1 is not a general-purpose integration platform, connector marketplace, ETL engine, autonomous integration agent, or production SaaS application.
 
----
+The following are outside the current implementation:
 
-### 12. Public Demo Model
+- YAML support and JSON support if the stretch goal does not ship;
+- scheduled, API/SDK, and event-triggered ingestion;
+- direct user editing of mapping rules;
+- enterprise registration, identity administration, roles, and approval hierarchies;
+- canonical-model administration and automated mapping revalidation;
+- production-scale storage, retention, and recovery controls;
+- the former `IntegrationFailure` event-normalization and simulated remediation/replay workflow.
 
-The eventual portfolio demonstration should allow a reviewer to understand the platform's behavior interactively without presenting the prototype as a production SaaS application.
-
-The intended demo includes:
-
-- a stable guided example;
-- temporary logically isolated demo workspaces;
-- synthetic data only;
-- selection among the three fictional sources;
-- inspection of representative source payloads;
-- AI-assisted mapping analysis;
-- human review and approval;
-- deterministic normalization using the approved mapping;
-- submission of a synthetic runtime integration failure;
-- visibility into provenance and processing results;
-- and selected bounded-remediation outcomes.
-
-The public demo should be designed as a **thin proving console**, not a fully featured commercial user interface.
-
----
-
-### 13. v1 Success Definition
-
-v1 succeeds when the platform demonstrates that:
-
-> **Three meaningfully different JSON source feeds can be analyzed, mapped with AI assistance, reviewed and approved by a human, and subsequently processed deterministically using their approved, versioned mappings.**
-
-This is a demonstrated-capability success criterion.
-
-The prototype does **not** claim to establish:
-
-- a specific percentage reduction in engineering effort;
-- a specific onboarding-time improvement;
-- headcount savings;
-- or production ROI.
-
-Those remain business hypotheses that a real deployment would need to validate empirically.
-
----
-
-### 14. Explicit v1 Exclusions
-
-v1 is not intended to be:
-
-- a general-purpose integration platform;
-- a production connector marketplace;
-- a general-purpose ETL platform;
-- an autonomous AI integration agent;
-- a system in which AI-generated mappings automatically enter runtime use;
-- a production-grade autonomous remediation engine;
-- a complete enterprise integration-management application;
-- a production SaaS platform;
-- or an industry-specific integration product.
-
-v1 also does not attempt to implement:
-
-- large connector catalogs;
-- multiple canonical business event types;
-- CSV/XML/EDI support;
-- complex transformation languages;
-- enterprise identity lifecycle management;
-- sophisticated approval workflows;
-- or production-scale operational requirements.
-
-These may be considered during production-evolution analysis.
-
----
+Human confirmation remains mandatory before processing a run. AI-generated mappings do not automatically enter processing use.
 
 ### 15. Assumptions
 
-The problem definition currently assumes:
+The current problem definition assumes:
 
-- representative JSON payloads provide sufficient information to demonstrate the onboarding problem;
-- three structurally and semantically different fictional sources are sufficient to demonstrate the core architecture;
-- a Solution/Implementation Engineer can reasonably review and modify proposed mappings;
-- human approval is required before a mapping can be used at runtime;
-- approved mappings are versioned;
-- runtime mappings are deterministic;
-- simple transformations cover enough real integration complexity to make the demonstration meaningful;
-- synthetic data and simulated external systems are appropriate for a public portfolio demonstration;
-- and `IntegrationFailure` provides a useful event type through which onboarding, normalization, provenance, and bounded remediation can all be demonstrated.
+- company-data CSV files can demonstrate meaningful schema and semantic differences;
+- a canonical Company model provides a useful target for onboarding;
+- a technically capable user can review mapping proposals and provide written revision guidance;
+- approved-mapping reuse can reduce repeated analysis across compatible uploads;
+- shared mapping definitions can be separated from private source data and audit history;
+- human confirmation, mapping versioning, and deterministic processing are central to the demonstration;
+- synthetic data and lightweight demo identity are appropriate for the public PoC;
+- bounded file sizes, AI usage, and retention are necessary to keep the demo manageable.
 
----
+### 16. Remaining unknowns
 
-### 16. Remaining Unknowns
+The following decisions remain for requirements refinement and architecture work:
 
-The following decisions are intentionally deferred to requirements and architecture work:
+- exact canonical Company fields and validation rules;
+- supported deterministic transformation operations and permitted defaults;
+- mapping representation and compatibility evaluation;
+- how preview execution is distinguished from confirmed processing;
+- rejection classification and alternate-mapping selection details;
+- numerical AI retry and usage limits;
+- retention duration and total-storage limits;
+- lightweight identity and workspace isolation mechanisms;
+- private metadata associations needed for current-user mapping search;
+- audit storage, observability, reliability, and recovery targets;
+- AI model, inference cost, and demo cost ceiling;
+- AWS service selection;
+- whether the JSON stretch goal will ship.
 
-- exact fields in the canonical event envelope;
-- exact fields in the `IntegrationFailure` payload;
-- detailed mapping lifecycle and version-transition behavior;
-- detailed validation rules;
-- remediation eligibility rules;
-- retry and replay behavior;
-- tenant/source isolation requirements;
-- authentication mechanisms;
-- data-retention requirements;
-- audit-history requirements;
-- reliability and recovery targets;
-- observability requirements;
-- cost constraints;
-- AI model and invocation controls;
-- and AWS service selection.
+The initial 50-record limit, human confirmation, cross-user mapping reuse, partial-conversion behavior, and immutable run outcomes are already defined in the functional requirements.
 
-These should not be prematurely resolved in the problem-definition phase.
+### 17. Decision provenance and superseded scope
 
----
+The original business framing and iterative design discussions established the project's enduring purpose: reduce specialized onboarding effort, retain human control, use deterministic versioned mappings, and demonstrate capability without unsupported ROI claims.
 
-### 17. Decision Provenance
+The finalized [v1 functional requirements](functional-requirements-v1.md), dated 2026-09-13, establish the current implementation scope. This problem definition has been updated to reflect that scope.
 
-The major project decisions represented here were developed through a combination of Erick's original business framing and iterative design discussion.
+The earlier problem definition recorded JSON-only webhook inputs, three fictional feeds, an `IntegrationFailure` canonical payload, direct mapping edits, an Approver role, and simulated downstream replay. Those decisions are superseded for v1 and are retained here only as historical context.
 
-#### Erick-originated or explicitly selected decisions
+The current scope uses CSV-first company-data uploads, a canonical Company model, approved-mapping discovery before AI, written revision hints, demo-user confirmation, shared reusable mappings, and bounded rejected-record recovery.
 
-- Reduce specialized engineering effort as the primary problem.
-- Treat faster onboarding as a secondary benefit.
-- Use a broadly understandable Solution/Implementation Engineer persona.
-- Architect an Approver role so organizations can choose whether to enforce separation of duties.
-- Use demonstrated capability rather than unsupported quantitative ROI claims as the v1 success criterion.
-- Support direct mappings plus simple transformations.
-- Limit v1 implementation to JSON sources.
-- Use a generic canonical event envelope plus `IntegrationFailure`.
-- Use one approved/versioned mapping per source feed.
-- Treat bounded remediation as secondary to onboarding and normalization.
-
-#### Previously locked project decisions
-
-- Broad B2B applicability rather than logistics-specific framing.
-- AI is assistive rather than the basis of runtime processing.
-- Human approval is required.
-- Approved mappings are deterministic and versioned.
-- Three fictional source feeds are used.
-- The initial representative event is integration execution failure.
-- The project ultimately includes a public interactive demonstration.
-
-#### Assistant contribution
-
-The assistant has helped structure alternatives, surface architectural implications, and translate Erick's selections into explicit requirements and boundaries.
-
-Where alternatives were proposed by the assistant, the final decisions documented above reflect Erick's selection or refinement rather than being treated as independently established project requirements.
+The assistant's role is to structure and document the selected scope. Open architecture questions remain explicit rather than being presented as settled requirements.
