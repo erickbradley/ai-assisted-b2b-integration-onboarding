@@ -51,9 +51,9 @@ The PoC uses lightweight demo identity. Enterprise registration, identity admini
 
 **FR-013 — Revision hints.** A user may request an AI revision by supplying written guidance about what should change. Direct editing of mapping rules is outside the v1 interaction.
 
-**FR-014 — Retry limits.** The system must enforce an operator-set AI retry limit, show remaining attempts, and prevent additional inference after the limit is reached. The numerical limit will be selected after the AI model, inference cost, and demo cost ceiling are known.
+**FR-014 — Retry limits.** The v1 demo must allow one initial AI mapping attempt and no more than two additional AI revision attempts within the same mapping workflow. The system must show remaining attempts and prevent additional inference after the limit is reached.
 
-**FR-015 — Retry exhaustion.** At the retry limit, the user may confirm the latest proposal if acceptable or discard the upload.
+**FR-015 — Retry exhaustion.** At the retry limit, the user may confirm the latest proposal only if it is complete and unambiguous or discard the upload. An incomplete mapping may never be approved or used for transformation.
 
 ## 6. Human review and confirmation
 
@@ -64,9 +64,9 @@ The PoC uses lightweight demo identity. Enterprise registration, identity admini
 - Every source field that will remain unmapped
 - The mapping version and canonical Company model version
 
-This requirement applies to reused and AI-generated mappings.
+This requirement applies to reused and AI-generated mappings. Unused source fields do not invalidate an otherwise complete mapping.
 
-**FR-017 — Human control.** No mapping may be used for transformation until the user confirms it.
+**FR-017 — Human control.** A mapping is valid only when every required field in the canonical `Company` model can be satisfied. No mapping may be used for transformation until the user confirms it.
 
 **FR-018 — Review actions.** The user may confirm the mapping, reject and discard it, or request an AI revision with hints while attempts remain.
 
@@ -78,13 +78,13 @@ This requirement applies to reused and AI-generated mappings.
 
 **FR-021 — Immediate reuse.** Each approved mapping version becomes immediately eligible for future searches.
 
-**FR-022 — Version search.** Compatible versions are searched newest-to-oldest. Older versions remain searchable when a newer version does not match and remain available for history and audit.
+**FR-022 — Version search.** Compatible versions are searched newest-to-oldest. Older versions remain searchable when a newer version does not match and remain retrievable during the defined mapping-retention period. After that period, an obsolete mapping definition may be deleted while historical audit retains its mapping ID/version and metadata.
 
 **FR-023 — No ordinary activation state.** Normal mapping versioning does not require a separate active/inactive designation.
 
 **FR-024 — Canonical-model binding.** Every mapping must record the canonical Company model version against which it was approved.
 
-**FR-025 — Canonical-model change.** When the canonical Company model version changes, mappings from earlier model versions become ineligible until revalidated. Historical mappings must not be deleted.
+**FR-025 — Canonical-model change.** When the canonical Company model version changes, mappings from earlier model versions become ineligible until revalidated. Earlier mapping definitions remain subject to the retention behavior in FR-022.
 
 Canonical-model administration and automated mapping revalidation are outside v1.
 
@@ -100,7 +100,7 @@ Canonical-model administration and automated mapping revalidation are outside v1
 
 ## 9. Audit reporting and run status
 
-**FR-030 — File-level audit.** Each run must record what was processed, when it ran, who initiated it, the result, the mapping rules and version used, the canonical-model version, and accepted/rejected record counts.
+**FR-030 — File-level audit.** Each run must record what was processed, when it ran, who initiated it, the result, the mapping ID/version reference used, the canonical-model version, and accepted/rejected record counts.
 
 **FR-031 — Record-level audit.** Each record outcome must show its before-conversion fields, whether it was accepted or rejected, and the rejection reason when applicable. Proprietary record data remains private to the user's workspace and subject to retention limits.
 
@@ -116,7 +116,7 @@ Canonical-model administration and automated mapping revalidation are outside v1
 
 ## 10. Rejected-record recovery
 
-**FR-035 — Retention.** Rejected records may be retained for bounded reprocessing. Time and total-storage limits will be defined with the nonfunctional requirements and cost model.
+**FR-035 — Retention.** Rejected records must be retained until successfully resolved/reprocessed or 24 hours, whichever comes first. They remain subject to the demo-wide total-storage limit.
 
 **FR-036 — Failure classification.** Before recovery, the system must classify a rejection as either potentially mapping-correctable or an unrecoverable source-data-quality failure.
 
@@ -154,7 +154,7 @@ Card #6 is functionally satisfied when the following behaviors can be demonstrat
 4. When no approved mapping matches, AI proposes a mapping or explains why it cannot.
 5. Reused and AI-generated mappings show rules, transformed samples, and unmapped fields before confirmation.
 6. Transformation cannot begin without human confirmation.
-7. An AI revision with user hints can be approved as a new reusable version.
+7. A complete AI revision with user hints can be approved as a new reusable version; an incomplete mapping cannot be approved or executed.
 8. A mapping associated with an older canonical-model version is not reused.
 9. With partial conversion on, valid records are stored and rejected records are separated with reasons.
 10. With partial conversion off, one failed record produces Total Failure and stores no transformed results.
