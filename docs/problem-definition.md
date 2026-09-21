@@ -1,9 +1,9 @@
 # AI-Assisted B2B Integration Onboarding Platform
 ## Problem definition
 
-Updated: 2026-09-13
+Updated: 2026-09-20
 
-This document describes the business problem and current v1 scope. The [v1 functional requirements](functional-requirements-v1.md) define the detailed behavior and acceptance scenarios.
+This document describes the business problem and current v1 scope. The [v1 functional requirements](functional-requirements-v1.md) define the detailed behavior and acceptance scenarios. The [nonfunctional requirements and constraints](nonfunctional-requirements-v1.md) define the governing security, reliability, auditability, retention, cost, performance, and operability expectations.
 
 ### 1. Business context
 
@@ -110,7 +110,7 @@ The project remains a bounded onboarding demonstration rather than a general-pur
 
 v1 converts company-data records into a **canonical Company model** supplied by the integration service provider.
 
-Every mapping records the canonical-model version against which it was approved. When that version changes, mappings approved against earlier versions become ineligible until revalidated. Historical mappings remain available for audit.
+Every mapping records the canonical-model version against which it was approved. When that version changes, mappings approved against earlier versions become ineligible until revalidated. Earlier mapping definitions remain retrievable during the defined mapping-retention period. After that period, an obsolete definition may be deleted while historical audit retains its mapping ID/version and metadata.
 
 Exact Company fields and validation rules remain design decisions. Canonical-model administration and automated mapping revalidation are outside v1.
 
@@ -130,7 +130,7 @@ A representative v1 workflow is:
 8. The platform processes the file deterministically using the confirmed mapping and the user's partial-conversion setting.
 9. The user inspects results and audit information, then pursues bounded recovery or export for rejected records.
 
-The platform enforces an operator-set AI retry limit and shows remaining attempts. At the limit, the user may confirm an acceptable latest proposal or discard the upload. The numerical limit depends on model choice, inference cost, and the demo cost ceiling.
+The v1 demo allows one initial AI mapping attempt and no more than two additional AI revision attempts within the same mapping workflow. The platform shows remaining attempts and blocks additional inference after the limit. At the limit, the user may confirm the latest proposal only if it is complete and unambiguous or discard the upload. An incomplete mapping can never be approved or executed.
 
 AI recommends mapping configuration. It does not independently decide how individual records should be transformed during an approved run.
 
@@ -147,7 +147,7 @@ Before processing, the user controls **Allow partial conversion**, which default
 - With partial conversion enabled, valid records are transformed and stored; rejected records receive failure reasons.
 - With partial conversion disabled, any record failure causes the whole run to fail, and no transformed results from that run are stored. The failure is still audited.
 
-File-level audit information records what was processed, when, by whom, the mapping rules and versions used, and accepted/rejected counts. Record-level audit information preserves before-conversion fields, outcomes, and rejection reasons. Proprietary record data remains private to the user's workspace and subject to retention limits.
+File-level audit information records what was processed, when, by whom, the mapping ID/version reference used, the canonical-model version, and accepted/rejected counts. During the active review window, record-level information shows before-conversion fields, outcomes, and rejection reasons. Proprietary record data remains private to the user's workspace and is deleted when its retention window expires; historical audit retains metadata rather than expired business-record values.
 
 Each run has an immutable outcome: **Full Success/Complete**, **Partial Success/Complete**, or **Total Failure**. Later recovery creates a linked run with its own audit and outcome; it does not change the original run's status.
 
@@ -163,7 +163,7 @@ Before recovery, a rejection is classified as potentially mapping-correctable or
 - Unrecoverable source-data failures bypass mapping search and AI and proceed to export.
 - If recovery fails or is declined, the user can export the original rejected records in their input format.
 
-Rejected-record retention is bounded. Time and storage limits will be defined with nonfunctional requirements and the cost model.
+Rejected records remain available until successful resolution/reprocessing or the 24-hour review-window expiration, whichever comes first. They also remain subject to the demo-wide total-storage ceiling and may be removed earlier under the documented storage-pressure policy while historical audit metadata remains.
 
 This recovery flow replaces the earlier simulated downstream API replay demonstration. The primary business thesis remains reducing onboarding effort through mapping assistance and reuse.
 
@@ -175,7 +175,7 @@ The upload screen provides an editable synthetic CSV and explains the supported 
 
 The sample and demo state must demonstrate both AI proposal when no mapping matches and approved-mapping reuse on a later compatible upload. Visitors can also explore unmapped fields, transformation failures, partial conversion, recovery, and export.
 
-Human review, version information, audit visibility, and private workspace data support the demonstration. Detailed identity, isolation, retention, and cost controls remain architecture and nonfunctional requirements work.
+Human review, version information, audit visibility, and private workspace data support the demonstration. The nonfunctional requirements define the required identity, isolation, retention, and cost-control outcomes; their concrete implementation mechanisms remain architecture decisions.
 
 A running-conversion visualization is optional and must not block v1 completion.
 
@@ -220,29 +220,30 @@ The current problem definition assumes:
 
 ### 16. Remaining unknowns
 
-The following decisions remain for requirements refinement and architecture work:
+The following decisions remain for architecture, cost modeling, or implementation testing:
 
 - exact canonical Company fields and validation rules;
 - supported deterministic transformation operations and permitted defaults;
 - mapping representation and compatibility evaluation;
 - how preview execution is distinguished from confirmed processing;
 - rejection classification and alternate-mapping selection details;
-- numerical AI retry and usage limits;
-- retention duration and total-storage limits;
-- lightweight identity and workspace isolation mechanisms;
+- broader user/workspace usage quotas, reset periods, and the owner-level financial shutdown threshold;
+- mapping-version retention duration and the hard total-storage ceiling;
+- the interactive processing timeout and final validated durable-data RPO;
+- lightweight identity and workspace-isolation mechanisms;
 - private metadata associations needed for current-user mapping search;
-- audit storage, observability, reliability, and recovery targets;
-- AI model, inference cost, and demo cost ceiling;
+- audit storage, operational metrics, alerting, and recovery implementation;
+- AI model, measured inference cost, and numeric demo cost ceilings;
 - AWS service selection;
 - whether the JSON stretch goal will ship.
 
-The initial 50-record limit, human confirmation, cross-user mapping reuse, partial-conversion behavior, and immutable run outcomes are already defined in the functional requirements.
+The initial 50-record limit, one initial AI attempt plus no more than two revisions, human confirmation, complete-mapping requirement, cross-user mapping reuse, partial-conversion behavior, immutable run outcomes, and 24-hour source/result/rejected-record retention are already defined in the functional and nonfunctional requirements.
 
 ### 17. Decision provenance and superseded scope
 
 The original business framing and iterative design discussions established the project's enduring purpose: reduce specialized onboarding effort, retain human control, use deterministic versioned mappings, and demonstrate capability without unsupported ROI claims.
 
-The finalized [v1 functional requirements](functional-requirements-v1.md), dated 2026-09-13, establish the current implementation scope. This problem definition has been updated to reflect that scope.
+The finalized [v1 functional requirements](functional-requirements-v1.md), dated 2026-09-13, establish the current implementation behavior. The finalized [nonfunctional requirements and constraints](nonfunctional-requirements-v1.md) establish the governing quality attributes and demo constraints. This problem definition has been updated to reflect both.
 
 The earlier problem definition recorded JSON-only webhook inputs, three fictional feeds, an `IntegrationFailure` canonical payload, direct mapping edits, an Approver role, and simulated downstream replay. Those decisions are superseded for v1 and are retained here only as historical context.
 
