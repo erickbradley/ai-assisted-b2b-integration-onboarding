@@ -6,7 +6,7 @@
 **Primary source format:** CSV  
 **Stretch format:** JSON  
 **Deferred format:** YAML  
-**Demo processing limit:** First 50 data records per uploaded file
+**Demo record limit:** Operator-configured maximum, initially 50 data records per file; CSV header excluded. Reject the entire oversized upload before mapping search or AI inference; do not truncate it.
 
 ---
 
@@ -16,7 +16,7 @@ This document defines the nonfunctional requirements and constraints for v1 of t
 
 The requirements intentionally distinguish between:
 
-1. **Enterprise-informed architectural requirements** — qualities the design should account for when handling potentially proprietary enterprise data.
+1. **Enterprise-informed architectural requirements** — qualities informed by the risks of real enterprise-data workflows, while the public v1 demo accepts synthetic data only and is not intended or designed for proprietary, private, sensitive, regulated, or otherwise protected data.
 2. **Portfolio/demo implementation constraints** — controls appropriate to a self-funded, synthetic-data demonstration.
 3. **Production evolution** — capabilities that may be required in a true enterprise implementation but are intentionally outside v1.
 
@@ -28,7 +28,7 @@ The objective is to demonstrate sound architecture judgment without representing
 
 ## NFR-2.1 — Enterprise-informed data posture
 
-Although the public demo will permit only synthetic data, the architecture must treat uploaded source data as though it could contain proprietary enterprise information.
+The public demo permits only synthetic data and must warn users that it is not intended or designed to handle proprietary, private, sensitive, regulated, or otherwise protected information. Because users may disregard that restriction or automated safeguards may miss prohibited content, the architecture must still treat uploaded source data as though it could contain proprietary enterprise information.
 
 Production-grade controls do not all have to be implemented in v1, but omitted controls must be explicitly treated as deferred rather than assumed unnecessary.
 
@@ -42,7 +42,9 @@ Data must not be retained “just in case.” If a future need for additional re
 
 AI is assistive.
 
-No AI-generated mapping may become executable or reusable without explicit human approval.
+Before approval, an AI-generated mapping may be evaluated only through a bounded sample preview used for human review. Preview evaluation must not create a processing run, store successful business results, or make the mapping reusable.
+
+No AI-generated mapping may become executable for an actual processing run or reusable without explicit human approval.
 
 ---
 
@@ -51,6 +53,8 @@ No AI-generated mapping may become executable or reusable without explicit human
 ## NFR-3.1 — Workspace isolation
 
 v1 must enforce meaningful logical isolation between demo workspaces.
+
+After the public visitor completes the required human-verification step, v1 assigns a temporary session-level demo identity and workspace without requiring account registration. For v1, references to a user or current user mean this temporary session identity. Returning visitors do not need to recover the same identity or workspace.
 
 A user operating within one workspace must not be able through supported application or API behavior to access another workspace's:
 
@@ -61,6 +65,8 @@ A user operating within one workspace must not be able through supported applica
 - workspace-specific artifacts.
 
 v1 is not required to implement enterprise-grade tenant administration, federation, identity lifecycle management, or sophisticated RBAC.
+
+Closing the page does not cancel already-submitted work, but v1 does not promise that the visitor can later recover the temporary session or its results. Backend retention, audit, and processing-timeout requirements continue to apply after the visitor departs.
 
 ### Validation
 
@@ -82,7 +88,7 @@ Some increases in AI-visible data may require explicit user authorization.
 
 ## NFR-3.3 — Responsibility for AI data appropriateness
 
-The user/organization has primary responsibility for ensuring that information submitted for AI-assisted processing is appropriate and limited to what is necessary.
+The user has primary responsibility for ensuring that information submitted to the demo is synthetic, permitted by the demo policy, appropriate for AI-assisted processing, and limited to what is necessary.
 
 The platform may implement safeguards intended to identify potentially sensitive information, but such safeguards are defense-in-depth controls and must not be represented as guaranteeing detection of PII, protected information, or other sensitive data.
 
@@ -90,15 +96,15 @@ The platform may implement safeguards intended to identify potentially sensitive
 
 ## NFR-3.4 — Sensitive-data warning and override
 
-If a platform safeguard identifies potentially sensitive data before additional AI exposure:
+If a best-effort platform safeguard identifies potentially private or sensitive data before additional AI exposure:
 
 1. AI processing must pause.
 2. The user must be shown that potentially sensitive data was detected.
-3. Processing may continue only after explicit user acknowledgement/override.
+3. Processing may continue only after the current demo user explicitly asserts that the detection is a false positive and that the submitted data contains no prohibited private or sensitive information.
 
-For v1, any authenticated user in the relevant workspace may perform the override.
+The override records the user's assertion; it does not authorize processing genuinely prohibited data or establish that the data is safe. Detection is a defense-in-depth control and must not be represented as comprehensive or guaranteed.
 
-This is a deliberate demo simplification and must not be represented as enterprise authorization governance.
+For v1, the current demo user operating in the relevant workspace may make the assertion. This is a deliberate demo simplification and must not be represented as enterprise authorization governance.
 
 ---
 
@@ -204,7 +210,7 @@ Each processing run must allow the user to choose whether partial conversion is 
 
 The run requires **all-or-nothing delivery**.
 
-If any record fails the required validation or transformation, no transformed records from that run may be delivered to the target system.
+For v1, storage in the demo's canonical data store represents delivery to the downstream target. If any record fails the required validation or transformation, no transformed records from that run may be stored there. v1 does not require delivery to a separate target application.
 
 How this guarantee is technically implemented is deferred to architecture design.
 
@@ -225,7 +231,7 @@ The system must not retain intermediate processing data merely because it may th
 
 ## NFR-5.1 — Mapping completeness
 
-A mapping is valid only when **every required field in the canonical `Company` model can be satisfied**.
+A mapping is eligible for approval and execution only when **every required field in the canonical `Company` model can be satisfied completely and unambiguously**, without fabricating missing source values. This applies to both reused and AI-generated mappings.
 
 A valid mapping does not require every source field to be consumed.
 
@@ -243,7 +249,7 @@ They must not, however, be silently ignored during review.
 
 ## NFR-5.3 — Incomplete AI mapping behavior
 
-An incomplete AI-generated mapping is never valid for approval or execution.
+An incomplete or ambiguous AI-generated mapping is never valid for approval or execution, including after the AI revision limit is reached.
 
 If AI cannot produce a complete mapping, the platform may:
 
@@ -255,7 +261,7 @@ If AI cannot produce a complete mapping, the platform may:
 
 The user must provide additional information/hints and explicitly request another AI attempt.
 
-Only a subsequently complete mapping may proceed to approval.
+Only a subsequently complete and unambiguous mapping may proceed to approval. If the revision allowance is exhausted without such a mapping, approval and execution remain blocked; display the unresolved findings and allow the user to discard the upload.
 
 ---
 
@@ -296,6 +302,8 @@ Existing events must not be modified or deleted.
 
 Corrections must be represented through additional events rather than rewriting historical events.
 
+This append-only requirement applies to audit/provenance metadata. It does not make source, transformed, or rejected-record values permanent. Those values are temporary record-review data and must be deleted under NFR-6.4 and NFR-7.2–7.5.
+
 ---
 
 ## NFR-6.3 — File/run-level audit information
@@ -326,6 +334,8 @@ During the active review/retention window, an authorized workspace user must be 
 
 After record-level business data expires, this detail must no longer be retained.
 
+Record-level business values are temporary review data, not permanent append-only audit metadata. Permanent audit may retain the outcome, failure classification, identifiers, counts, and version references without retaining the expired values themselves.
+
 ---
 
 ## NFR-6.5 — AI provenance
@@ -342,9 +352,9 @@ The platform does not need to retain every AI revision attempt or the original A
 
 ## NFR-6.6 — Mapping provenance
 
-Historical runs must reference the mapping ID/version used.
+Historical runs must reference the exact mapping ID/version used. During the referenced mapping definition's retention period, a reviewer must be able to retrieve its rules and determine how data was mapped in that specific run. The reference must identify the version actually used, not merely the latest mapping version.
 
-The run does not need to contain a duplicate snapshot of the mapping rules as long as the referenced mapping version remains retrievable during its applicable retention period.
+A duplicate snapshot of the rules in each run is not required. After an obsolete definition is deleted under NFR-7.6, historical audit retains its ID/version and provenance metadata, but access to the rules is no longer guaranteed. This loss of rule-inspection capability after the retention period is an explicit demo/PoC concession; production may require longer retention or archival. Rule availability is separate from the shorter retention of source and transformed business-record values.
 
 ---
 
@@ -390,9 +400,9 @@ Routine application activity should remain visible through logs/metrics rather t
 
 ## NFR-7.1 — Downstream data ownership
 
-Long-term persistence of successfully transformed business data belongs to the downstream target enterprise system.
+For v1, the demo's canonical data store represents the downstream target and serves as the theoretical system of record for successfully transformed data during the demo retention window. Stored/displayed canonical results therefore represent successful delivery; no separate target application is required.
 
-The integration utility is not intended to become the authoritative system of record for integrated business data.
+In a production enterprise implementation, successfully delivered data belongs to the target company's canonical application or data stores, which become the authoritative system of record. The integration utility is not intended to remain the authoritative long-term system of record for that business data.
 
 ---
 
@@ -414,11 +424,11 @@ The value may be reduced after launch based on observed usage and cost.
 
 ## NFR-7.3 — Transformed results
 
-The integration utility may retain its local copy of transformed results for the same short post-processing review window.
+The v1 demo's canonical data store retains transformed results for the short post-processing review window. Within the self-contained demo, this stored result both represents downstream delivery and supports review.
 
 The initial review window is **24 hours**.
 
-After expiration, the utility's copy must be deleted even though the corresponding business data may continue to exist in the downstream target system.
+After expiration, the demo's transformed results must be deleted. This deletion is a demo/PoC concession. In a production implementation, the target company's canonical application or data stores would retain the delivered business data according to their applicable retention requirements; any integration-utility review copy would follow its own separate retention policy.
 
 ---
 
@@ -428,6 +438,8 @@ Rejected records must be retained until the earlier of:
 
 1. successful reprocessing/resolution; or
 2. the **24-hour** review-window expiration.
+
+The 24-hour limit is specifically a demo/PoC concession, not a production retention requirement. Production retention must be determined against applicable legal, contractual, and operational obligations. The separate demo storage-pressure policy in NFR-7.7–7.8 may require earlier removal, with user-visible notice and preserved historical audit metadata.
 
 ---
 
@@ -444,6 +456,8 @@ After source, transformed, and rejected record contents expire, the platform mus
 
 Expired business-record values must not remain in historical records.
 
+The append-only audit requirement therefore applies to the retained metadata listed above, not to temporary source, transformed, or rejected-record contents.
+
 ---
 
 ## NFR-7.6 — Mapping definition lifecycle
@@ -452,7 +466,7 @@ Approved mappings are service-owned, reusable, versioned, and bound to a canonic
 
 Superseded mapping versions must remain retrievable for a predefined retention period.
 
-For the demo, once that retention period expires, an obsolete mapping definition may be deleted even if older audit history still references its mapping ID/version.
+As an explicit demo/PoC concession, once that retention period expires, an obsolete mapping definition may be deleted even if older audit history still references its mapping ID/version. Historical audit/provenance metadata remains retained; deleting a definition does not delete those references.
 
 The exact mapping-retention duration remains open.
 
@@ -559,14 +573,16 @@ This is intentionally different from a production enterprise implementation, whi
 
 ## NFR-9.2 — Processing timeout
 
-If processing exceeds the defined interactive-response target:
+The normal response target describes the expected interactive experience; it is not the hard processing timeout. Exceeding the normal response target alone must not force an otherwise valid operation to fail. Normal response targets and their validation status are recorded in the [pre-build application profile](application-profile-pre-build.md).
+
+A separate hard processing timeout bounds how long processing may continue. If processing reaches that timeout:
 
 - processing must fail gracefully;
 - the run must enter a clear failed state;
 - hidden background processing must not continue;
 - the user may initiate a new linked retry.
 
-The exact timeout value remains open.
+The hard timeout duration and its stage-specific application remain open for architecture design and validation. Do not use the provisional 10-second response targets as implicit timeout values.
 
 ---
 
@@ -652,7 +668,7 @@ The following constraints are intentionally specific to the public/self-funded d
 - CSV required for v1.
 - JSON is a non-blocking stretch goal.
 - YAML deferred.
-- Maximum of the first 50 records per upload.
+- Operator-configured maximum of initially 50 data records per file, excluding the CSV header. Reject the entire file if it exceeds the limit, before mapping search or AI inference; do not process only the first 50 records.
 - AI mapping attempts are bounded.
 - Short-lived business-data retention.
 - Global storage cap.
@@ -692,9 +708,9 @@ These are not required to prove the v1 architecture thesis.
 
 ---
 
-# 13. Open Quantitative Parameters
+# 13. Quantitative Parameters
 
-The following requirements are conceptually decided but still require numeric values during architecture/cost modeling or implementation testing:
+The following quantitative parameters are either unresolved or have explicit v1 values that remain subject to validation:
 
 | Parameter | Current status |
 |---|---|
@@ -706,11 +722,11 @@ The following requirements are conceptually decided but still require numeric va
 | Usage quota reset period | Open |
 | Owner-level financial shutdown threshold | Open |
 | Hard total-storage ceiling | Open |
-| Interactive processing timeout | Open |
+| Hard processing timeout | Duration and stage-specific application open; separate from normal response targets |
 | Mapping-version retention duration | Open |
-| Final AI retry limit | Initial value = 2 revisions; revisit after cost measurement |
+| AI mapping revision limit | v1 rule = no more than 2 revisions after the initial attempt; change only through an explicit requirements revision informed by measured cost |
 | Durable-data RPO | Initial target = 1 hour; revisit if disproportionate |
-| Source/result/rejected-record retention | Initial value = 24 hours; may be reduced based on usage |
+| Source/result/rejected-record retention | v1 rule = 24 hours. If the hard demo-wide storage ceiling is reached, delete expired data first and then the oldest unexpired run data only as needed; preserve historical audit metadata, show that early deletion occurred, and reject new uploads if sufficient space still cannot be recovered (NFR-7.7–7.8). |
 
 ---
 

@@ -1,9 +1,9 @@
 # AI-Assisted B2B Integration Onboarding Platform
 ## Problem definition
 
-Updated: 2026-09-20
+Updated: 2026-09-27 — AI limits, approval eligibility, retention, provenance, preview, and audit-data boundaries aligned
 
-This document describes the business problem and current v1 scope. The [v1 functional requirements](functional-requirements-v1.md) define the detailed behavior and acceptance scenarios. The [nonfunctional requirements and constraints](nonfunctional-requirements-v1.md) define the governing security, reliability, auditability, retention, cost, performance, and operability expectations.
+This document describes the business problem and current v1 scope. The [v1 functional requirements](functional-requirements-v1.md) define detailed behavior and acceptance scenarios. The [nonfunctional requirements and constraints](nonfunctional-requirements-v1.md) define the governing security, reliability, auditability, retention, cost, performance, and operability expectations. The [pre-build application profile](application-profile-pre-build.md) records workload assumptions, validation hypotheses, and architecture questions without selecting an implementation.
 
 ### 1. Business context
 
@@ -63,7 +63,7 @@ The public PoC represents this persona through a **demo user**, who uploads file
 
 The **integration service provider** owns approved mapping definitions, provides the canonical Company model, and establishes demo limits.
 
-v1 uses lightweight demo identity. Enterprise registration, identity administration, authorization roles, and approval hierarchies are outside scope. Human confirmation is required, but there is no separate Approver role in v1.
+After a public visitor completes the required human-verification step, v1 assigns a temporary session-level demo identity and logically isolated workspace without account registration. That identity scopes private workspace data, usage limits, and current-user mapping-search precedence during the visit. Returning visitors do not need to recover the same identity, workspace, or prior work. Enterprise registration, identity administration, authorization roles, and approval hierarchies are outside scope. Human confirmation is required, but there is no separate Approver role in v1.
 
 Complex or unusual cases may still require deeper engineering expertise. The objective is to reduce how frequently such intervention is necessary, not eliminate engineering involvement entirely.
 
@@ -75,7 +75,7 @@ A representative processing flow is:
 
 > **Company-data file → compatible approved mapping or AI proposal → human confirmation → deterministic conversion to the canonical Company model**
 
-Mapping discovery precedes AI inference. The system searches the current user's approved mappings newest-to-oldest, then shared approved mappings newest-to-oldest, selecting the first compatible candidate.
+Mapping discovery precedes AI inference. The system first searches mappings approved under the visitor's current temporary session identity, then service-owned shared mappings approved in other sessions, selecting the first compatible candidate. Session-level provenance determines search precedence without making mapping definitions user-owned.
 
 A compatible mapping supports complete and unambiguous conversion to the current canonical model. Exact structural identity is not required, and extra source fields may remain unmapped. Missing information required by the model makes a mapping incompatible; the system must not fabricate source values.
 
@@ -90,7 +90,7 @@ v1 demonstrates onboarding through **manual uploads of company-data files**.
 - YAML is deferred.
 - Scheduled, API/SDK, and event-triggered ingestion are outside v1.
 
-The demo rejects unsupported, malformed, empty, or oversized files with useful errors. The operator-configured record limit starts at 50 data records per file; a CSV header does not count. Oversized files are rejected before mapping search or AI inference.
+The demo rejects unsupported, malformed, empty, or oversized files with useful errors. The operator-configured record limit starts at 50 data records per file; a CSV header does not count. Oversized files are rejected in full before mapping search or AI inference; the demo must not truncate them or process only the records within the limit.
 
 An editable synthetic CSV provides the starting point for exploration. A JSON sample is provided only if JSON support ships. v1 does not require three predefined feeds or webhook sources.
 
@@ -102,7 +102,7 @@ The review presents mapping rules, transformed sample records, unmapped source f
 
 The detailed supported transformation operations and validation rules remain to be specified against the canonical Company model. Any permitted defaults must respect the requirement not to fabricate missing source values.
 
-Preview computation supports review before confirmation. Applying a mapping to process and store a run requires human confirmation; the functional requirements should distinguish this preview from the confirmed processing run.
+Before confirmation, the system may apply the proposed mapping only to a bounded sample to produce the review preview. Preview evaluation does not create a processing run, store successful business results, or make the mapping reusable. Applying a mapping to an actual processing run requires human confirmation.
 
 The project remains a bounded onboarding demonstration rather than a general-purpose ETL or arbitrary transformation-code platform.
 
@@ -110,7 +110,9 @@ The project remains a bounded onboarding demonstration rather than a general-pur
 
 v1 converts company-data records into a **canonical Company model** supplied by the integration service provider.
 
-Every mapping records the canonical-model version against which it was approved. When that version changes, mappings approved against earlier versions become ineligible until revalidated. Earlier mapping definitions remain retrievable during the defined mapping-retention period. After that period, an obsolete definition may be deleted while historical audit retains its mapping ID/version and metadata.
+The self-contained demo stores successful canonical results in its own canonical data store. That store represents the downstream target and serves as the theoretical system of record during the demo retention window; v1 does not deliver results to a separate target application. In an enterprise product, the target company's canonical application or data stores would receive the transformed data and become its authoritative system of record.
+
+Every mapping records the canonical-model version against which it was approved. When that version changes, mappings approved against earlier versions become ineligible until revalidated. Earlier mapping definitions remain retrievable during their defined mapping-retention period. Once that period expires, obsolete definitions may be deleted while historical audit retains their IDs, versions, and provenance metadata. This is a demo/PoC concession; production may require archival or retention for as long as historical runs depend on those definitions. The mapping-retention duration remains open and is separate from the 24-hour business-record review window.
 
 Exact Company fields and validation rules remain design decisions. Canonical-model administration and automated mapping revalidation are outside v1.
 
@@ -122,7 +124,7 @@ A representative v1 workflow is:
 
 1. The demo user uploads a company-data file.
 2. The platform validates its format, data presence, and record count.
-3. It searches approved mappings, checking the current user's mappings before shared mappings.
+3. It searches approved mappings, checking mappings associated with the current temporary session identity before service-owned shared mappings from other sessions.
 4. If no compatible mapping exists, AI proposes a mapping or explains why it cannot produce a complete and unambiguous proposal.
 5. The user reviews mapping rules, transformed samples, unmapped fields, and version information.
 6. The user confirms the mapping, discards the upload, or requests an AI revision with written hints while attempts remain.
@@ -130,7 +132,7 @@ A representative v1 workflow is:
 8. The platform processes the file deterministically using the confirmed mapping and the user's partial-conversion setting.
 9. The user inspects results and audit information, then pursues bounded recovery or export for rejected records.
 
-The v1 demo allows one initial AI mapping attempt and no more than two additional AI revision attempts within the same mapping workflow. The platform shows remaining attempts and blocks additional inference after the limit. At the limit, the user may confirm the latest proposal only if it is complete and unambiguous or discard the upload. An incomplete mapping can never be approved or executed.
+The v1 demo allows one initial AI mapping attempt and no more than two additional AI revision attempts within the same mapping workflow. It shows remaining attempts and blocks additional inference after the limit is reached. At the limit, the user may confirm the latest proposal only if it is complete and unambiguous, or discard the upload. A proposal that remains incomplete or ambiguous cannot be approved or executed; the system shows the unresolved findings and permits discard without further AI attempts. The limit may be revisited after real inference costs are measured, as described in NFR-5.4.
 
 AI recommends mapping configuration. It does not independently decide how individual records should be transformed during an approved run.
 
@@ -138,7 +140,7 @@ AI recommends mapping configuration. It does not independently decide how indivi
 
 Approved mapping definitions are owned by the integration service provider and automatically become reusable across users. Shared definitions must exclude source records, sample values, user prompts, user identity, and private audit history.
 
-Compatible mapping versions remain searchable newest-to-oldest, including older versions when newer versions do not match. Normal versioning does not require a separate active/inactive state.
+Retained compatible mapping versions remain searchable newest-to-oldest, including older versions when newer versions do not match. Normal versioning does not require a separate active/inactive state.
 
 Each processing run must be deterministic and traceable to its confirmed mapping and canonical-model versions.
 
@@ -147,7 +149,11 @@ Before processing, the user controls **Allow partial conversion**, which default
 - With partial conversion enabled, valid records are transformed and stored; rejected records receive failure reasons.
 - With partial conversion disabled, any record failure causes the whole run to fail, and no transformed results from that run are stored. The failure is still audited.
 
-File-level audit information records what was processed, when, by whom, the mapping ID/version reference used, the canonical-model version, and accepted/rejected counts. During the active review window, record-level information shows before-conversion fields, outcomes, and rejection reasons. Proprietary record data remains private to the user's workspace and is deleted when its retention window expires; historical audit retains metadata rather than expired business-record values.
+For v1, storing canonical results in the demo's canonical data store represents successful downstream delivery. A separate target-system integration is outside the self-contained demo boundary.
+
+Permanent, append-only audit/provenance metadata records what was processed, when, by whom, the exact mapping ID/version used, the canonical-model version, accepted/rejected counts, outcomes, failure classifications, and reprocessing relationships. The referenced mapping rules must remain retrievable during the mapping-definition retention period so a reviewer can understand how data was mapped in that specific run; a duplicate rule snapshot in every run is not required. Retaining only the reference after an obsolete definition is deleted, without guaranteeing continued rule inspection, is a demo/PoC concession.
+
+During the active review window, temporary record-review details show before-conversion fields, outcomes, and rejection reasons. These business-record values remain private to the user's workspace and are deleted under the applicable retention and storage-pressure policies. They are not part of the permanent append-only audit history; historical audit retains metadata without expired source, transformed, or rejected-record values.
 
 Each run has an immutable outcome: **Full Success/Complete**, **Partial Success/Complete**, or **Total Failure**. Later recovery creates a linked run with its own audit and outcome; it does not change the original run's status.
 
@@ -163,7 +169,7 @@ Before recovery, a rejection is classified as potentially mapping-correctable or
 - Unrecoverable source-data failures bypass mapping search and AI and proceed to export.
 - If recovery fails or is declined, the user can export the original rejected records in their input format.
 
-Rejected records remain available until successful resolution/reprocessing or the 24-hour review-window expiration, whichever comes first. They also remain subject to the demo-wide total-storage ceiling and may be removed earlier under the documented storage-pressure policy while historical audit metadata remains.
+Rejected records remain available until successful resolution/reprocessing or the 24-hour review window expires, whichever comes first. The 24-hour limit is specifically a demo/PoC concession; production retention must be determined for the applicable enterprise context. The separate demo storage-pressure policy may remove records earlier, with a visible notice and retained historical audit metadata. The numeric total-storage ceiling remains open.
 
 This recovery flow replaces the earlier simulated downstream API replay demonstration. The primary business thesis remains reducing onboarding effort through mapping assistance and reuse.
 
@@ -171,11 +177,15 @@ This recovery flow replaces the earlier simulated downstream API replay demonstr
 
 The portfolio demonstration lets a reviewer explore the platform interactively without presenting the PoC as a production SaaS application.
 
-The upload screen provides an editable synthetic CSV and explains the supported format, record limit, and synthetic-data-only guidance. Visitors download and optionally edit the sample, then upload it. There is no separate in-app sample runner.
+Anyone who discovers the public link may view the project explanation and architecture information. Starting an interactive session or cost-generating processing requires a brief human-verification step without account registration. Successful verification creates a temporary session identity and isolated workspace. Failed verification blocks interactive processing but leaves the public, non-cost-generating material accessible. Human verification deters automated use but does not replace usage and cost controls or guarantee that later requests are human-operated.
+
+The upload screen provides an editable synthetic CSV and explains the supported format, record limit, and synthetic-data-only restriction. Before upload, visitors acknowledge that the demo is not intended or designed to handle proprietary, private, sensitive, regulated, or otherwise protected information. Visitors download and optionally edit the sample, then upload it. There is no separate in-app sample runner.
+
+Where a best-effort safeguard reasonably detects potentially private or sensitive data, AI-assisted processing pauses. The current demo user may continue only by explicitly asserting that the detection is a false positive and the submitted data contains no prohibited private or sensitive information. This assertion does not authorize prohibited data or guarantee that the safeguard detected all such content.
 
 The sample and demo state must demonstrate both AI proposal when no mapping matches and approved-mapping reuse on a later compatible upload. Visitors can also explore unmapped fields, transformation failures, partial conversion, recovery, and export.
 
-Human review, version information, audit visibility, and private workspace data support the demonstration. The nonfunctional requirements define the required identity, isolation, retention, and cost-control outcomes; their concrete implementation mechanisms remain architecture decisions.
+Human review, version information, audit visibility, and private workspace data support the demonstration. The required identity experience, isolation outcomes, retention, and cost controls are established; their implementation mechanisms remain architecture decisions.
 
 A running-conversion visualization is optional and must not block v1 completion.
 
@@ -215,7 +225,7 @@ The current problem definition assumes:
 - approved-mapping reuse can reduce repeated analysis across compatible uploads;
 - shared mapping definitions can be separated from private source data and audit history;
 - human confirmation, mapping versioning, and deterministic processing are central to the demonstration;
-- synthetic data and lightweight demo identity are appropriate for the public PoC;
+- synthetic data and a temporary session-level demo identity/workspace are appropriate for the public PoC;
 - bounded file sizes, AI usage, and retention are necessary to keep the demo manageable.
 
 ### 16. Remaining unknowns
@@ -225,19 +235,18 @@ The following decisions remain for architecture, cost modeling, or implementatio
 - exact canonical Company fields and validation rules;
 - supported deterministic transformation operations and permitted defaults;
 - mapping representation and compatibility evaluation;
-- how preview execution is distinguished from confirmed processing;
 - rejection classification and alternate-mapping selection details;
-- broader user/workspace usage quotas, reset periods, and the owner-level financial shutdown threshold;
-- mapping-version retention duration and the hard total-storage ceiling;
-- the interactive processing timeout and final validated durable-data RPO;
-- lightweight identity and workspace-isolation mechanisms;
+- broader user/workspace usage limits, reset periods, and the owner-level financial shutdown threshold;
+- mapping-definition retention duration and the numeric total-storage ceiling;
+- temporary session-identity and workspace-isolation implementation mechanisms;
 - private metadata associations needed for current-user mapping search;
-- audit storage, operational metrics, alerting, and recovery implementation;
+- audit storage, operational-metrics, alerting, backup, and recovery implementation mechanisms;
+- hard processing timeout, final validation of the provisional response targets, and the final validated durable-data RPO;
 - AI model, measured inference cost, and numeric demo cost ceilings;
 - AWS service selection;
 - whether the JSON stretch goal will ship.
 
-The initial 50-record limit, one initial AI attempt plus no more than two revisions, human confirmation, complete-mapping requirement, cross-user mapping reuse, partial-conversion behavior, immutable run outcomes, and 24-hour source/result/rejected-record retention are already defined in the functional and nonfunctional requirements.
+The initial 50-record limit, one initial AI mapping attempt plus up to two revisions, human confirmation, complete-mapping requirement, cross-user mapping reuse, partial-conversion behavior, immutable run outcomes, 24-hour source/result/rejected-record retention, no formal uptime SLA, best-effort 24-hour RTO, tiered RPOs, operational metric categories, and alerting priorities are already defined in the functional and nonfunctional requirements.
 
 ### 17. Decision provenance and superseded scope
 

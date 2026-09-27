@@ -10,3 +10,5 @@ Architecture and MVP design in progress.
 
 - [Problem definition](docs/problem-definition.md)
 - [v1 functional requirements](docs/functional-requirements-v1.md)
+- [v1 nonfunctional requirements](docs/nonfunctional-requirements-v1.md)
+- [Pre-build application profile](docs/application-profile-pre-build.md)
