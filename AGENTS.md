@@ -30,6 +30,30 @@ Recent commits use short, imperative, sentence-case subjects (for example, `Revi
 
 Never commit credentials, state files, or environment-specific secrets. The `.gitignore` excludes Terraform state, `.tfvars` files, override files, and CLI configuration; preserve those protections. Provide sanitized example configuration such as `terraform.tfvars.example` when contributors need documented inputs.
 
+## Documentation Alignment
+
+Treat each project document as authoritative for a different kind of information:
+
+- `docs/problem-definition.md` owns the business problem, users, scope, and success definition.
+- `docs/functional-requirements-v1.md` owns required system behavior and acceptance scenarios.
+- `docs/nonfunctional-requirements-v1.md` owns security, reliability, performance, retention, cost, and operational constraints.
+- `docs/application-profile-pre-build.md` owns workload estimates, assumptions, unknowns, boundaries, and architecture-driving characteristics before architecture selection.
+- ADRs own architecture choices, considered alternatives, and consequences.
+- `README.md` provides only a short project summary, status, and document links.
+
+Avoid duplicating detailed rules. When another document needs context, summarize the rule briefly and reference its stable requirement ID, such as `FR-014` or `NFR-7.7`.
+
+For documentation changes:
+
+- [ ] Update the document that owns the decision first.
+- [ ] Search `README.md` and `docs/` for wording that the decision may invalidate.
+- [ ] Update affected summaries and cross-references without copying unnecessary detail.
+- [ ] Preserve the distinctions among Known, Requirement, Estimate, Assumption, and Unknown in the application profile.
+- [ ] Put architecture selections in ADRs unless the required behavior or constraint also changed.
+- [ ] Run `git diff --check`, inspect `git status --short`, and review the documentation diff.
+
+Run a broader cross-document alignment review when a change affects multiple document boundaries or at a project milestone. Ordinary implementation decisions need only the relevant ADR and supporting implementation documentation unless they change an established requirement.
+
 ## Agent-Specific Instructions
 
 When running commands such as Git, shell, build, or test commands on the user's behalf, include a brief beginner-level explanation of what was done and why. Mention the repository instructions that guided the action, and provide bite-size learning tips rather than long lessons. Keep explanations clear enough for someone developing foundational command-line and software-development skills.
