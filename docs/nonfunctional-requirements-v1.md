@@ -1,8 +1,10 @@
 # AI-Assisted B2B Integration Onboarding Platform
+
+> Scope update (2026-10-25): v1 now uses flat support-ticket CSV uploads and a CRM-shaped canonical Support Case model. See [Support Case contract](support-case-contract-v1.md) for fields, validation and examples. This supersedes Company-centered wording; live CRM delivery, joins and ongoing synchronization remain outside v1.
 ## Nonfunctional Requirements & Constraints
 
 **Status:** v1 portfolio/demo requirements  
-**Scope:** Company-data file onboarding and transformation platform  
+**Scope:** Support-ticket file onboarding and transformation platform
 **Primary source format:** CSV  
 **Stretch format:** JSON  
 **Deferred format:** YAML  
@@ -231,7 +233,7 @@ The system must not retain intermediate processing data merely because it may th
 
 ## NFR-5.1 — Mapping completeness
 
-A mapping is eligible for approval and execution only when **every required field in the canonical `Company` model can be satisfied completely and unambiguously**, without fabricating missing source values. This applies to both reused and AI-generated mappings.
+A mapping is eligible for approval and execution only when **every required field in the canonical `SupportCase` model can be satisfied completely and unambiguously**, without fabricating missing source values. This applies to both reused and AI-generated mappings.
 
 A valid mapping does not require every source field to be consumed.
 
@@ -715,7 +717,7 @@ The following quantitative parameters are either unresolved or have explicit v1 
 
 | Parameter | Current status |
 |---|---|
-| Monthly demo cost ceiling | Open |
+| Monthly demo cost ceiling | Provisional $20/month, excluding existing subscriptions; feasibility unvalidated |
 | Idle-month cost target | Open |
 | Active-demo cost ceiling | Open |
 | Approximate/permitted cost per run | Open |

@@ -1,0 +1,3 @@
+ticket_ref,customer,requester_given_name,requester_family_name,requester_email,requester_job,headline,details,logged_on,modified_on,owner_given_name,owner_family_name,state,urgency,impacted_users,dev_reference,conversation_history,unused_source_note
+ALT-2001,Example Meadow Systems,Taylor,Sample,,,Synthetic report delay,Fictional demo: reports run slowly with a temporary workaround.,2026-10-25T16:15:00+01:00,,Robin,Demo,Working,Major,12,,,"Synthetic extra field, intentionally unmapped"
+ALT-2002,Example Harbor Labs,Alex,Example,taylor@example.org,,Synthetic sign-in failure,Fictional demo: sign-in returns an error after an update.,2026-10-25T17:00:00Z,,,,Solved,Minor,0,,,"Synthetic extra field, intentionally unmapped"

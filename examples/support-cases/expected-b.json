@@ -1,0 +1,40 @@
+[
+  {
+    "source_ticket_id": "ALT-2001",
+    "organization_name": "Example Meadow Systems",
+    "reporter_first_name": "Taylor",
+    "reporter_last_name": "Sample",
+    "reporter_email": null,
+    "reporter_role": null,
+    "subject": "Synthetic report delay",
+    "description": "Fictional demo: reports run slowly with a temporary workaround.",
+    "created_at": "2026-10-25T15:15:00Z",
+    "updated_at": null,
+    "assignee_first_name": "Robin",
+    "assignee_last_name": "Demo",
+    "status": "In Progress",
+    "priority": "P2",
+    "affected_user_count": 12,
+    "engineering_ref": null,
+    "comments": null
+  },
+  {
+    "source_ticket_id": "ALT-2002",
+    "organization_name": "Example Harbor Labs",
+    "reporter_first_name": "Alex",
+    "reporter_last_name": "Example",
+    "reporter_email": "taylor@example.org",
+    "reporter_role": null,
+    "subject": "Synthetic sign-in failure",
+    "description": "Fictional demo: sign-in returns an error after an update.",
+    "created_at": "2026-10-25T17:00:00Z",
+    "updated_at": null,
+    "assignee_first_name": null,
+    "assignee_last_name": null,
+    "status": "Resolved",
+    "priority": "P4",
+    "affected_user_count": 0,
+    "engineering_ref": null,
+    "comments": null
+  }
+]

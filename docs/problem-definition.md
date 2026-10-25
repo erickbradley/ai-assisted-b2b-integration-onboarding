@@ -1,4 +1,6 @@
 # AI-Assisted B2B Integration Onboarding Platform
+
+> Scope update (2026-10-25): v1 now uses flat support-ticket CSV uploads and a CRM-shaped canonical Support Case model. See [Support Case contract](support-case-contract-v1.md) for fields, validation and examples. This supersedes Company-centered wording; live CRM delivery, joins and ongoing synchronization remain outside v1.
 ## Problem definition
 
 Updated: 2026-09-27 — AI limits, approval eligibility, retention, provenance, preview, and audit-data boundaries aligned
@@ -61,7 +63,7 @@ The user is expected to understand source fields and data semantics, review prop
 
 The public PoC represents this persona through a **demo user**, who uploads files, reviews and confirms mappings, inspects results, and exports rejected records.
 
-The **integration service provider** owns approved mapping definitions, provides the canonical Company model, and establishes demo limits.
+The **integration service provider** owns approved mapping definitions, provides the canonical Support Case model, and establishes demo limits.
 
 After a public visitor completes the required human-verification step, v1 assigns a temporary session-level demo identity and logically isolated workspace without account registration. That identity scopes private workspace data, usage limits, and current-user mapping-search precedence during the visit. Returning visitors do not need to recover the same identity, workspace, or prior work. Enterprise registration, identity administration, authorization roles, and approval hierarchies are outside scope. Human confirmation is required, but there is no separate Approver role in v1.
 
@@ -73,7 +75,7 @@ The primary product capability is **source-data onboarding through reusable mapp
 
 A representative processing flow is:
 
-> **Company-data file → compatible approved mapping or AI proposal → human confirmation → deterministic conversion to the canonical Company model**
+> **Support-ticket file → compatible approved mapping or AI proposal → human confirmation → deterministic conversion to the canonical Support Case model**
 
 Mapping discovery precedes AI inference. The system first searches mappings approved under the visitor's current temporary session identity, then service-owned shared mappings approved in other sessions, selecting the first compatible candidate. Session-level provenance determines search precedence without making mapping definitions user-owned.
 
@@ -83,7 +85,7 @@ Approved mappings are reusable across uploads and users rather than being limite
 
 ### 6. v1 source scope
 
-v1 demonstrates onboarding through **manual uploads of company-data files**.
+v1 demonstrates onboarding through **manual uploads of support-ticket files**.
 
 - CSV is required.
 - JSON is a non-blocking stretch goal.
@@ -100,7 +102,7 @@ v1 demonstrates source-to-canonical field mapping and deterministic transformati
 
 The review presents mapping rules, transformed sample records, unmapped source fields, and the mapping and canonical-model versions. Users request changes through written hints for AI revision rather than editing rules directly.
 
-The detailed supported transformation operations and validation rules remain to be specified against the canonical Company model. Any permitted defaults must respect the requirement not to fabricate missing source values.
+The initial supported transformation operations and validation rules are specified in [Support Case contract](support-case-contract-v1.md); mapping representation and runtime implementation remain design decisions. Any permitted defaults must respect the requirement not to fabricate missing source values.
 
 Before confirmation, the system may apply the proposed mapping only to a bounded sample to produce the review preview. Preview evaluation does not create a processing run, store successful business results, or make the mapping reusable. Applying a mapping to an actual processing run requires human confirmation.
 
@@ -108,13 +110,13 @@ The project remains a bounded onboarding demonstration rather than a general-pur
 
 ### 8. Canonical data model
 
-v1 converts company-data records into a **canonical Company model** supplied by the integration service provider.
+v1 converts support-ticket records into a **canonical Support Case model** supplied by the integration service provider.
 
 The self-contained demo stores successful canonical results in its own canonical data store. That store represents the downstream target and serves as the theoretical system of record during the demo retention window; v1 does not deliver results to a separate target application. In an enterprise product, the target company's canonical application or data stores would receive the transformed data and become its authoritative system of record.
 
 Every mapping records the canonical-model version against which it was approved. When that version changes, mappings approved against earlier versions become ineligible until revalidated. Earlier mapping definitions remain retrievable during their defined mapping-retention period. Once that period expires, obsolete definitions may be deleted while historical audit retains their IDs, versions, and provenance metadata. This is a demo/PoC concession; production may require archival or retention for as long as historical runs depend on those definitions. The mapping-retention duration remains open and is separate from the 24-hour business-record review window.
 
-Exact Company fields and validation rules remain design decisions. Canonical-model administration and automated mapping revalidation are outside v1.
+The initial fields and validation rules are defined in [Support Case contract](support-case-contract-v1.md). Canonical-model administration and automated mapping revalidation are outside v1.
 
 The earlier generic event envelope and `IntegrationFailure` payload are superseded and are not v1 implementation targets.
 
@@ -122,7 +124,7 @@ The earlier generic event envelope and `IntegrationFailure` payload are supersed
 
 A representative v1 workflow is:
 
-1. The demo user uploads a company-data file.
+1. The demo user uploads a support-ticket file.
 2. The platform validates its format, data presence, and record count.
 3. It searches approved mappings, checking mappings associated with the current temporary session identity before service-owned shared mappings from other sessions.
 4. If no compatible mapping exists, AI proposes a mapping or explains why it cannot produce a complete and unambiguous proposal.
@@ -159,7 +161,7 @@ Each run has an immutable outcome: **Full Success/Complete**, **Partial Success/
 
 ### 11. Bounded rejected-record recovery
 
-v1 supports bounded recovery of rejected company-data records.
+v1 supports bounded recovery of rejected support-ticket records.
 
 Before recovery, a rejection is classified as potentially mapping-correctable or an unrecoverable source-data-quality failure.
 
@@ -193,7 +195,7 @@ A running-conversion visualization is optional and must not block v1 completion.
 
 v1 succeeds when it demonstrates that:
 
-> **Company-data files can be onboarded through approved-mapping reuse or AI-assisted proposals, reviewed and confirmed by a human, and converted deterministically into the canonical Company model with auditable outcomes and bounded recovery of rejected records.**
+> **Support-ticket files can be onboarded through approved-mapping reuse or AI-assisted proposals, reviewed and confirmed by a human, and converted deterministically into the canonical Support Case model with auditable outcomes and bounded recovery of rejected records.**
 
 The functional requirements define the acceptance scenarios, including intake validation, mapping search order, human confirmation, version compatibility, partial conversion, linked recovery runs, export, and enforced limits.
 
@@ -219,8 +221,8 @@ Human confirmation remains mandatory before processing a run. AI-generated mappi
 
 The current problem definition assumes:
 
-- company-data CSV files can demonstrate meaningful schema and semantic differences;
-- a canonical Company model provides a useful target for onboarding;
+- support-ticket CSV files can demonstrate meaningful schema and semantic differences;
+- a canonical Support Case model provides a useful target for onboarding;
 - a technically capable user can review mapping proposals and provide written revision guidance;
 - approved-mapping reuse can reduce repeated analysis across compatible uploads;
 - shared mapping definitions can be separated from private source data and audit history;
@@ -232,7 +234,7 @@ The current problem definition assumes:
 
 The following decisions remain for architecture, cost modeling, or implementation testing:
 
-- exact canonical Company fields and validation rules;
+- implementation of the agreed [Support Case contract](support-case-contract-v1.md);
 - supported deterministic transformation operations and permitted defaults;
 - mapping representation and compatibility evaluation;
 - rejection classification and alternate-mapping selection details;
@@ -256,6 +258,6 @@ The finalized [v1 functional requirements](functional-requirements-v1.md), dated
 
 The earlier problem definition recorded JSON-only webhook inputs, three fictional feeds, an `IntegrationFailure` canonical payload, direct mapping edits, an Approver role, and simulated downstream replay. Those decisions are superseded for v1 and are retained here only as historical context.
 
-The current scope uses CSV-first company-data uploads, a canonical Company model, approved-mapping discovery before AI, written revision hints, demo-user confirmation, shared reusable mappings, and bounded rejected-record recovery.
+The current scope uses CSV-first support-ticket uploads, a canonical Support Case model, approved-mapping discovery before AI, written revision hints, demo-user confirmation, shared reusable mappings, and bounded rejected-record recovery.
 
 The assistant's role is to structure and document the selected scope. Open architecture questions remain explicit rather than being presented as settled requirements.

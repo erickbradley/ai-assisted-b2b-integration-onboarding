@@ -1,5 +1,7 @@
 # AI-Assisted B2B Integration Onboarding Platform
 
+> Scope update (2026-10-25): v1 now uses flat support-ticket CSV uploads and a CRM-shaped canonical Support Case model. See [Support Case contract](support-case-contract-v1.md) for fields, validation and examples. This supersedes Company-centered wording; live CRM delivery, joins and ongoing synchronization remain outside v1.
+
 ## Application profile — pre-build
 
 Status: Pre-build discussion baseline; all ten sections populated, with unresolved items explicitly retained. Not an approved architecture or completed implementation.
@@ -26,8 +28,8 @@ The following repository documents form the current, mutually aligned source set
 
 The profile was also informed by external project artifacts retained outside this repository:
 
-- Scope decisions and an XMind workflow extraction dated 2026-09-12. These record the move to file onboarding and a canonical Company model; superseded `IntegrationFailure` material is historical only.
-- The [Trello project plan](https://trello.com/b/PdtLdWkP/ai-assisted-b2b-integration-onboarding-platform-project-plan), reviewed 2026-09-27. Card #22 defines this profile; card #10 includes the canonical Company contract as unfinished design work.
+- Scope decisions and an XMind workflow extraction dated 2026-09-12. These historically recorded the move to file onboarding and a Company model, now superseded by the Support Case contract; superseded `IntegrationFailure` material is historical only.
+- The [Trello project plan](https://trello.com/b/PdtLdWkP/ai-assisted-b2b-integration-onboarding-platform-project-plan), reviewed 2026-09-27. Card #22 defined this profile; card #10 historically included the Company contract as unfinished work. The Step 3 Support Case artifacts supersede that model; this operation does not update Trello.
 - The BeSA learning record, used as supporting learning context rather than as a source of project requirements.
 
 Newer explicitly approved decisions take precedence over superseded source material. Any future conflict among the repository documents must be reconciled before the affected statement is treated as settled.
@@ -76,7 +78,7 @@ Decision provenance: Erick supplied the demonstrated capability and architecture
 
 ## 3. Actors and usage profile
 
-**Requirement — User responsibilities:** The demo user uploads sample data, reviews and confirms mapping proposals, requests AI revisions when needed, inspects results, and exports rejected records. The integration service provider owns approved mapping definitions, establishes demo limits, and provides the canonical Company model. Source: finalized functional requirements, Section 2. These are responsibilities, not a choice of identity or access implementation.
+**Requirement — User responsibilities:** The demo user uploads sample data, reviews and confirms mapping proposals, requests AI revisions when needed, inspects results, and exports rejected records. The integration service provider owns approved mapping definitions, establishes demo limits, and provides the canonical Support Case model. Source: finalized functional requirements, Section 2. These are responsibilities, not a choice of identity or access implementation.
 
 **Requirement — Modes of use:** Support both independent visitor exploration and Erick-led demonstrations. A visitor must be able to explore the core demonstration without Erick present; a guided walkthrough supports interview follow-up and deeper exploration. Source: Erick's selection and clarification in this working session.
 
@@ -108,7 +110,7 @@ Decision provenance: Erick supplied the demonstrated capability and architecture
 
 **Requirement — Human approval remains mandatory:** Completing already-submitted work does not authorize the system to cross a pending human-confirmation boundary. A proposal awaiting review remains subject to FR-017; visitor departure is not approval to transform data.
 
-**Requirement — Session-level accumulation:** Transformed Company records may accumulate across processing runs within the current demo session, subject to applicable retention periods and usage/storage limits. This is a session-scoped dataset, not a dataset shared across visitors. It does not require cross-visit continuity or expanded user administration. Source: Erick's selection of accumulation with an explicit session-level boundary in this working session.
+**Requirement — Session-level accumulation:** Transformed Support Case records may accumulate across processing runs within the current demo session, subject to applicable retention periods and usage/storage limits. This is a session-scoped dataset, not a dataset shared across visitors. It does not require cross-visit continuity or expanded user administration. Source: Erick's selection of accumulation with an explicit session-level boundary in this working session.
 
 **Assumption — Production evolution: organizational sharing boundaries:** Session-scoped data is a demo/PoC concession. A production application should distinguish mappings and data by organization, department, or team, allowing mapping reuse to be restricted to a team or broadened to the organization. This describes scope and visibility, not a requirement for long-term business-data retention by the integration application. It does not change v1 service-owned, cross-user mapping reuse.
 
@@ -130,13 +132,13 @@ Decision provenance: Erick supplied the demonstrated capability and architecture
 
 **Unknown — Production retention obligations:** Applicable obligations, category-specific periods, deletion rules, and any preservation exceptions have not been established. Determine them for the actual enterprise context; do not infer concrete legal requirements or extend the v1 retention window here.
 
-**Assumption — Repeated company records, provisional v1 baseline:** Retain separate transformed results associated with each processing run, even when records may describe the same company. Do not assume that later uploads update an authoritative current company record. Erick selected this behavior for now, subject to the definition of the canonical target data model. Session-level accumulation therefore does not presently require cross-run company matching, deduplication, or merge rules.
+**Requirement — Repeated support-case records:** Retain separate transformed results per processing run, even when records refer to the same source ticket. The Support Case scenario does not introduce cross-run matching, upsert, deduplication or synchronization. The source ticket ID is a reference within its source context, not a globally unique CRM case identifier.
 
-**Unknown — Canonical-model dependency:** Revisit the provisional repeated-record behavior when the canonical Company model's identity and record semantics are defined. A company identifier alone does not establish whether later records replace earlier ones; the intended processing behavior also needs to be explicit. Original run audit outcomes remain immutable under FR-033–FR-034 regardless of that later decision.
+**Known — Canonical-model baseline:** The initial [Support Case contract](support-case-contract-v1.md) defines ticket reference semantics and per-run output. Original run outcomes remain immutable; future synchronization would require an explicit scope decision.
 
-**Known — Canonical-model definition status, checked 2026-09-27:** The current repository contains the problem definition and functional/nonfunctional requirements, but no canonical schema artifact. The current problem definition explicitly leaves exact Company fields and validation rules as design decisions (Sections 8 and 16). Trello's unfinished [Milestone 4 — Produce detailed architecture design](https://trello.com/c/vJayBxZn/10-milestone-4-produce-detailed-architecture-design), in Later — Architecture & Design, includes the canonical Company contract. No standalone canonical-model-definition card was found among the returned board cards. Related [Milestone 3](https://trello.com/c/2PkfqddG/9-milestone-3-compare-architecture-options-write-adrs) includes model storage/versioning and mapping invalidation. The profile therefore retains model details as unresolved rather than defining them here.
+**Known — Canonical-model definition status, updated 2026-10-25:** The repository now contains the approved initial [Support Case contract](support-case-contract-v1.md), [JSON Schema](../schemas/support-case-v1.schema.json), and [synthetic fixtures](../examples/support-cases/README.md). These supersede the earlier Company contract work; no implementation or AI feasibility is claimed. Earlier Trello references describe historical planning and have not been updated in this operation.
 
-**Requirement — Repeated request versus repeated content:** The provisional append-per-run behavior applies to intentionally new requests. An accidentally resubmitted request must not create another independent run; identical source content may be intentionally processed again with a new request identity (NFR-4.1). This is separate from company-level matching or deduplication.
+**Requirement — Repeated request versus repeated content:** The provisional append-per-run behavior applies to intentionally new requests. An accidentally resubmitted request must not create another independent run; identical source content may be intentionally processed again with a new request identity (NFR-4.1). This is separate from cross-run ticket matching or deduplication.
 
 **Requirement — Mapping-definition retention:** Retain superseded mapping definitions for their defined retention period; after expiration, obsolete definitions may be deleted while audit retains mapping IDs, versions, and provenance metadata. This is an explicit demo/PoC concession. Production may require archival or retention for as long as historical runs depend on the definitions. The duration remains unresolved and must not be confused with the 24-hour business-record review window (FR-022–FR-025; NFR-7.6).
 
@@ -178,7 +180,7 @@ Decision provenance: Erick supplied the demonstrated capability and architecture
 
 **Unknown — Confirmed-transformation validation:** Test representative successful, partially successful, and whole-file-failure runs to establish whether the provisional target is practical and what response-time commitment is supportable. Preserve required storage and audit outcomes when measuring completion.
 
-**Unknown — File sizes and byte limit:** Erick deferred file-size estimates until representative source samples are available after the canonical Company model is defined. The 50-record limit alone does not constrain total bytes, column count, or field length. Measure representative file sizes and variation, then propose an upload-byte limit for review before public launch. No numeric byte limit is selected here.
+**Unknown — File sizes and byte limit:** Erick deferred file-size estimates until representative source samples are available after the canonical Support Case model is defined. The 50-record limit alone does not constrain total bytes, column count, or field length. Measure representative file sizes and variation, then propose an upload-byte limit for review before public launch. No numeric byte limit is selected here.
 
 **Assumption — Sample-based workload validation:** Representative source samples should inform file-size estimates and subsequent performance/cost tests. Canonical-model size alone is insufficient because input files may include extra unmapped fields. Owner: Erick; review point: sample preparation and vertical-slice validation.
 
@@ -230,9 +232,9 @@ Decision provenance: Erick supplied the demonstrated capability and architecture
 
 **Requirement — Evidence of correctness and explainability:** Use the existing requirements as the basis: complete and unambiguous mappings; no fabricated missing source values; visible mapping rules, sample results, and unmapped fields; human confirmation; deterministic transformation; clear rejection reasons; and mapping/canonical-version provenance linked to run outcomes (FR-008–FR-018, FR-024–FR-041; NFR-5.1–5.3, NFR-6.3–6.6). Human approval and a successful processing status alone do not prove semantic correctness.
 
-**Unknown — Representative correctness evidence:** Specific expected field values and validation examples depend on the canonical Company model and representative source samples. Define and validate those examples during model/sample preparation and the vertical slice rather than inventing them in this profile.
+**Unknown — Representative correctness evidence:** Initial expected field values and validation examples are defined in the Support Case fixtures. Validate and extend them during AI feasibility and vertical-slice experiments; their existence is not evidence of AI correctness.
 
-**Requirement — Cost, operability, and observability baseline:** Keep idle cost deliberately low, enforce bounded consumption, and stop cost-generating interactive use at the owner-level financial threshold until manual intervention. Maintain append-only audit metadata, operational counts, latency, failures, AI usage, storage/quota metrics, and actionable failure/cost alerts. Deployment and teardown must be repeatable and documented (NFR-6.1–6.8, NFR-8.1–8.5, NFR-10.1–10.3). Exact budgets and implementation mechanisms remain unresolved; none is invented by this profile.
+**Requirement — Cost, operability, and observability baseline:** Keep idle cost deliberately low, enforce bounded consumption, and stop cost-generating interactive use at the owner-level financial threshold until manual intervention. Maintain append-only audit metadata, operational counts, latency, failures, AI usage, storage/quota metrics, and actionable failure/cost alerts. Deployment and teardown must be repeatable and documented (NFR-6.1–6.8, NFR-8.1–8.5, NFR-10.1–10.3). The provisional monthly operating ceiling is $20, excluding existing subscriptions; its feasibility and the detailed enforcement mechanisms remain unvalidated. Other quantitative limits remain unresolved.
 
 ## 9. Assumptions and unknowns
 
@@ -240,11 +242,11 @@ Decision provenance: Erick supplied the demonstrated capability and architecture
 
 **Known — Consequence if the hypothesis fails:** Erick considers failure of this capability a threat to the central AI-assisted demo premise. Deterministic processing and mapping reuse would still have technical value, but would not by themselves establish the intended AI-assisted onboarding demonstration.
 
-**Requirement — First validation priority:** Test AI proposal and human-guided revision usefulness before investing heavily in the full build. Use the eventual canonical Company model, representative synthetic inputs, and expected results to judge correctness and completeness rather than merely counting populated mappings. Apply the existing one-initial-attempt/two-revision allowance and no-fabricated-data requirement. Include inputs where missing source information should lead to an explained inability to complete a mapping rather than invented values. Owner: Erick; review point: initial feasibility test/vertical slice.
+**Requirement — First validation priority:** Test AI proposal and human-guided revision usefulness before investing heavily in the full build. Use the initial canonical Support Case contract, representative synthetic inputs, and expected results to judge correctness and completeness rather than merely counting populated mappings. Apply the existing one-initial-attempt/two-revision allowance and no-fabricated-data requirement. Include inputs where missing source information should lead to an explained inability to complete a mapping rather than invented values. Owner: Erick; review point: initial feasibility test/vertical slice.
 
 **Requirement — Initial feasibility acceptance boundary:** Before investing heavily in the full build, demonstrate repeatable success across several meaningfully different representative source examples, including a successful user-guided correction. Source: Erick selected this standard in this working session. Judge success against expected canonical results, mapping completeness, and existing guardrails within the permitted AI attempts. A single curated successful example is insufficient; no numeric success-rate threshold is committed at this stage.
 
-**Unknown — Feasibility test details:** Exact examples, number of repeated trials, and treatment of inconsistent results remain to be specified once the canonical model and representative inputs exist. Record outcomes and limitations without claiming measured reliability or retaining prohibited AI context in the application. Known synthetic test fixtures and expected results may define test cases; application AI-interaction retention remains governed by NFR-3.5.
+**Unknown — Feasibility test details:** Initial examples now exist; experiment breadth, number of repeated trials, and treatment of inconsistent results remain to be specified. Record outcomes and limitations without claiming measured reliability or retaining prohibited AI context in the application. Known synthetic test fixtures and expected results may define test cases; application AI-interaction retention remains governed by NFR-3.5.
 
 Other unresolved items remain labeled in their relevant sections, including model definition, matching dependencies, performance targets, file sizes, consumption limits, and production policies. Source-verification items are tracked above.
 
@@ -253,7 +255,7 @@ Other unresolved items remain labeled in their relevant sections, including mode
 Architecture and service selection remain outside this profile.
 
 - Does mapping compatibility evaluation require AI, and how does that affect the objective of approved-mapping reuse during AI outages? No matching approach has been selected. This question must be resolved before the availability claim can be validated.
-- What canonical Company fields, identity semantics, validation rules, and bounded transformation operations define the target contract? Detailed definition remains with the planned model/design work; repeated-company handling is provisional until then.
+- How will the defined [Support Case contract](support-case-contract-v1.md), validation rules and bounded transformations be implemented? Per-run results remain separate without cross-run upsert.
 - What minimum source information and correction context does each AI operation need, and how will proposals be checked for completeness and correctness? Respect the existing minimum-exposure and human-confirmation requirements.
 - How will the bounded preview and confirmed processing paths satisfy partial-conversion rules, duplicate-request protection, visitor departure behavior, and bounded timeouts while preserving their established separation?
 - How will temporary workspace access, human verification, shared mapping reuse, private provenance, and data deletion meet the established trust boundaries without enterprise user administration?

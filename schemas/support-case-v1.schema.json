@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://erickbradley.com/schemas/support-case-v1.schema.json",
+  "title": "Canonical Support Case v1",
+  "description": "One transformed support ticket for a CRM-shaped demo target. This identifier is a schema identity, not a promise of a hosted endpoint.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_ticket_id",
+    "organization_name",
+    "reporter_first_name",
+    "reporter_last_name",
+    "subject",
+    "description",
+    "created_at",
+    "status",
+    "priority"
+  ],
+  "properties": {
+    "source_ticket_id": {
+      "description": "Source ticket reference; not a generated CRM case number.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "organization_name": {
+      "description": "Display name of the organization associated with the ticket; not an account match.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "reporter_first_name": {
+      "description": "Given name of the reporting contact.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "reporter_last_name": {
+      "description": "Family name of the reporting contact.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "reporter_email": {
+      "description": "Reporting contact email; syntax only, no deliverability lookup.",
+      "anyOf": [
+        {
+          "description": "Reporting contact email; syntax only, no deliverability lookup.",
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "reporter_role": {
+      "description": "Reporting contact role.",
+      "anyOf": [
+        {
+          "description": "Reporting contact role.",
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "subject": {
+      "description": "Case title or short summary.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "description": {
+      "description": "Detailed issue description.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "created_at": {
+      "description": "Time the ticket was logged, normalized to UTC.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?Z$",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "description": "Time of last source update, normalized to UTC when supplied.",
+      "anyOf": [
+        {
+          "description": "Time of last source update, normalized to UTC when supplied.",
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?Z$",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "assignee_first_name": {
+      "description": "Given name of the support assignee, if supplied.",
+      "anyOf": [
+        {
+          "description": "Given name of the support assignee, if supplied.",
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "assignee_last_name": {
+      "description": "Family name of the support assignee, if supplied.",
+      "anyOf": [
+        {
+          "description": "Family name of the support assignee, if supplied.",
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "status": {
+      "description": "Normalized support-case status.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S",
+      "enum": [
+        "New",
+        "In Progress",
+        "Pending",
+        "Resolved",
+        "Closed"
+      ]
+    },
+    "priority": {
+      "description": "Normalized priority: P1 Critical, P2 High, P3 Medium, P4 Low.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S",
+      "enum": [
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ]
+    },
+    "affected_user_count": {
+      "description": "Number of users affected, when known.",
+      "anyOf": [
+        {
+          "description": "Number of users affected, when known.",
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "engineering_ref": {
+      "description": "Source-provided engineering issue reference; no lookup or validity guarantee.",
+      "anyOf": [
+        {
+          "description": "Source-provided engineering issue reference; no lookup or validity guarantee.",
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "comments": {
+      "description": "Optional preassembled conversation; wording and order preserved.",
+      "anyOf": [
+        {
+          "description": "Optional preassembled conversation; wording and order preserved.",
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  }
+}

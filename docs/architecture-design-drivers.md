@@ -1,5 +1,7 @@
 # Architecture design drivers
 
+> Scope update (2026-10-25): v1 now uses flat support-ticket CSV uploads and a CRM-shaped canonical Support Case model. See [Support Case contract](support-case-contract-v1.md) for fields, validation and examples. This supersedes Company-centered wording; live CRM delivery, joins and ongoing synchronization remain outside v1.
+
 Status: Step 1 discussion summary; design inputs, not a selected architecture or validated implementation.
 Date: 2026-10-25
 
@@ -38,7 +40,7 @@ Carry these into the design even though the three drivers above receive particul
 
 ## Open questions and validation
 
-1. Define the canonical Company contract and representative source examples so mapping correctness can be evaluated.
+1. Use the initial [Support Case contract](support-case-contract-v1.md) and [synthetic examples](../examples/support-cases/README.md) to evaluate mapping correctness; these are design artifacts, not measured AI results.
 2. Test useful AI proposals and user-guided revisions before substantial build investment. Neither a model nor a prompt is selected by this summary.
 3. Determine mapping representation and compatibility evaluation, including whether the reuse path can work during AI unavailability.
 4. Prepare the first operating-cost estimate as soon as a provisional service design is available (Step 6), before implementation commitments. Include idle costs, expected use, development/test consumption where applicable, and a bounded higher-use scenario. Refine using measured inference costs.
@@ -51,7 +53,7 @@ Erick identified AI inference for mapping, personal budget, and transformation/s
 
 This summary records those choices and reviewer observations. It does not claim AI feasibility, budget feasibility, or service selection has been validated.
 
-The $20/month ceiling is a new provisional constraint recorded here; older quantitative tables may still label the monthly ceiling open. Detailed quotas and financial shutdown values remain open.
+The $20/month ceiling is a provisional constraint recorded here and reflected in the NFR quantitative table. Detailed quotas and financial shutdown values remain open.
 
 ## Source documents
 

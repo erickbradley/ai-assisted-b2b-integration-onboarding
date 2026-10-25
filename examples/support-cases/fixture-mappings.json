@@ -1,0 +1,90 @@
+{
+  "purpose": "Test expectations only, not approved runtime mappings or a selected production mapping representation. AI must propose rules for review in the demo.",
+  "canonical_model_version": "support-case-v1",
+  "source_a": {
+    "target_to_source_columns": {
+      "source_ticket_id": "source_ticket_id",
+      "organization_name": "organization_name",
+      "reporter_first_name": "reporter_first_name",
+      "reporter_last_name": "reporter_last_name",
+      "reporter_email": "reporter_email",
+      "reporter_role": "reporter_role",
+      "subject": "subject",
+      "description": "description",
+      "created_at": "created_at",
+      "updated_at": "updated_at",
+      "assignee_first_name": "assignee_first_name",
+      "assignee_last_name": "assignee_last_name",
+      "status": "status",
+      "priority": "priority",
+      "affected_user_count": "affected_user_count",
+      "engineering_ref": "engineering_ref",
+      "comments": "comments"
+    },
+    "enum_translations": {
+      "status": {
+        "Open": "In Progress",
+        "New": "New",
+        "Pending": "Pending",
+        "Resolved": "Resolved",
+        "Closed": "Closed"
+      },
+      "priority": {
+        "Urgent": "P1",
+        "High": "P2",
+        "Normal": "P3",
+        "Low": "P4"
+      }
+    },
+    "definitions": {
+      "Urgent": "Fixture-only highest response priority",
+      "High": "Fixture-only second priority",
+      "Normal": "Fixture-only standard priority",
+      "Low": "Fixture-only lowest priority"
+    },
+    "note": "Open -> In Progress is the explicit user-selected initial-source convention. Priority values are illustrative source definitions, not a universal equivalence or severity classification."
+  },
+  "source_b": {
+    "target_to_source_columns": {
+      "source_ticket_id": "ticket_ref",
+      "organization_name": "customer",
+      "reporter_first_name": "requester_given_name",
+      "reporter_last_name": "requester_family_name",
+      "reporter_email": "requester_email",
+      "reporter_role": "requester_job",
+      "subject": "headline",
+      "description": "details",
+      "created_at": "logged_on",
+      "updated_at": "modified_on",
+      "assignee_first_name": "owner_given_name",
+      "assignee_last_name": "owner_family_name",
+      "status": "state",
+      "priority": "urgency",
+      "affected_user_count": "impacted_users",
+      "engineering_ref": "dev_reference",
+      "comments": "conversation_history"
+    },
+    "enum_translations": {
+      "status": {
+        "Untriaged": "New",
+        "Working": "In Progress",
+        "Waiting": "Pending",
+        "Solved": "Resolved",
+        "Archived": "Closed"
+      },
+      "priority": {
+        "Blocker": "P1",
+        "Major": "P2",
+        "Standard": "P3",
+        "Minor": "P4"
+      }
+    },
+    "definitions": {
+      "Blocker": "Fixture-only highest priority",
+      "Major": "Fixture-only second priority",
+      "Standard": "Fixture-only third priority",
+      "Minor": "Fixture-only lowest priority"
+    },
+    "note": "Alternative export of support cases, not a CRM export or engineering feed. State and priority dictionaries are synthetic test conventions."
+  }
+}

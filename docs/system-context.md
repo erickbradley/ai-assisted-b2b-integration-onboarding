@@ -1,11 +1,13 @@
 # System context
 
+> Scope update (2026-10-25): v1 now uses flat support-ticket CSV uploads and a CRM-shaped canonical Support Case model. See [Support Case contract](support-case-contract-v1.md) for fields, validation and examples. This supersedes Company-centered wording; live CRM delivery, joins and ongoing synchronization remain outside v1.
+
 Status: Step 2 discussion summary; logical context, not a deployment design.
 Date: 2026-10-25
 
 ## Purpose and boundary
 
-The AI-Assisted B2B Integration Onboarding Platform accepts manually uploaded company-data CSV files, finds reusable mappings or requests AI proposals, supports human review, and deterministically processes a confirmed mapping into its canonical Company model.
+The AI-Assisted B2B Integration Onboarding Platform accepts manually uploaded support-ticket CSV files, finds reusable mappings or requests AI proposals, supports human review, and deterministically processes a confirmed mapping into its canonical Support Case model.
 
 This view treats the platform as one system. Internal applications, storage, processing, and AWS service choices are intentionally omitted. A managed AWS service may implement part of the platform; being managed does not automatically make it an external system.
 
@@ -89,7 +91,7 @@ Notification channels, event thresholds and interfaces have not been selected.
 - Human-verification mechanism, validation details, failure handling and any direct browser/provider exchange.
 - Operator configuration, actionable alert conditions and manual resume mechanism.
 - AI-independent mapping compatibility and behavior during inference outages.
-- Detailed data contracts and canonical Company schema, to be addressed next.
+- Implementation of the [Support Case contract](support-case-contract-v1.md), including explicit bounds for comment formatting and input sizes.
 
 ## Sources and decision provenance
 

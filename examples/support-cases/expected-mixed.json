@@ -1,0 +1,68 @@
+{
+  "partial_conversion_on": {
+    "status": "Partial Success/Complete",
+    "accepted_count": 1,
+    "rejected_count": 5,
+    "stored_results": [
+      {
+        "source_ticket_id": "MIX-3001",
+        "organization_name": "Example Harbor Labs",
+        "reporter_first_name": "Alex",
+        "reporter_last_name": "Example",
+        "reporter_email": null,
+        "reporter_role": null,
+        "subject": "Synthetic sign-in failure",
+        "description": "Fictional demo: sign-in returns an error after an update.",
+        "created_at": "2026-10-25T14:30:00Z",
+        "updated_at": null,
+        "assignee_first_name": null,
+        "assignee_last_name": null,
+        "status": "In Progress",
+        "priority": "P3",
+        "affected_user_count": null,
+        "engineering_ref": null,
+        "comments": null
+      }
+    ]
+  },
+  "partial_conversion_off": {
+    "status": "Total Failure",
+    "accepted_count": 0,
+    "stored_results": [],
+    "note": "Five records fail validation. The individually valid row is not stored because the run is all-or-nothing. Exact per-record reporting classification remains an implementation decision.",
+    "invalid_record_count": 5,
+    "record_count": 6
+  },
+  "invalid_rows": [
+    {
+      "data_row": 2,
+      "source_ticket_id": "MIX-3002",
+      "field": "reporter_last_name",
+      "reason": "Blank required name"
+    },
+    {
+      "data_row": 3,
+      "source_ticket_id": "MIX-3003",
+      "field": "priority",
+      "reason": "Unmapped priority"
+    },
+    {
+      "data_row": 4,
+      "source_ticket_id": "MIX-3004",
+      "field": "created_at",
+      "reason": "Missing timezone"
+    },
+    {
+      "data_row": 5,
+      "source_ticket_id": "MIX-3005",
+      "field": "affected_user_count",
+      "reason": "Negative count"
+    },
+    {
+      "data_row": 6,
+      "source_ticket_id": "MIX-3006",
+      "field": "reporter_email",
+      "reason": "Invalid basic email syntax"
+    }
+  ]
+}

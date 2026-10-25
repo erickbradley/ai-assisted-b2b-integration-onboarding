@@ -12,3 +12,14 @@ Architecture and MVP design in progress.
 - [v1 functional requirements](docs/functional-requirements-v1.md)
 - [v1 nonfunctional requirements](docs/nonfunctional-requirements-v1.md)
 - [Pre-build application profile](docs/application-profile-pre-build.md)
+
+
+## Current demonstration scenario
+
+Support ticket CSV -> human-reviewed mapping -> deterministic CRM-shaped Support Case results stored inside the demo. No live CRM connector is required.
+
+- [System context](docs/system-context.md)
+- [Architecture design drivers](docs/architecture-design-drivers.md)
+- [Support Case contract](docs/support-case-contract-v1.md)
+- [Target JSON Schema](schemas/support-case-v1.schema.json)
+- [Synthetic examples and expected results](examples/support-cases/README.md)

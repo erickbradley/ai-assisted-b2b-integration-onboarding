@@ -1,0 +1,40 @@
+[
+  {
+    "source_ticket_id": "SUP-1001",
+    "organization_name": "Example Harbor Labs",
+    "reporter_first_name": "Alex",
+    "reporter_last_name": "Example",
+    "reporter_email": "alex@example.com",
+    "reporter_role": "Administrator",
+    "subject": "Synthetic sign-in failure",
+    "description": "Fictional demo: sign-in returns an error after an update.",
+    "created_at": "2026-10-25T14:30:00Z",
+    "updated_at": "2026-10-25T15:00:00Z",
+    "assignee_first_name": null,
+    "assignee_last_name": null,
+    "status": "In Progress",
+    "priority": "P1",
+    "affected_user_count": 450,
+    "engineering_ref": "ENG-4092",
+    "comments": "[2026-10-25T14:35:00Z] Customer: Sign-in fails.\n[2026-10-25T14:40:00Z] Agent: Investigating."
+  },
+  {
+    "source_ticket_id": "SUP-1002",
+    "organization_name": "Example Harbor Labs",
+    "reporter_first_name": "Alex",
+    "reporter_last_name": "Example",
+    "reporter_email": null,
+    "reporter_role": null,
+    "subject": "Synthetic export question",
+    "description": "Fictional demo: customer asks where exports are saved.",
+    "created_at": "2026-10-25T14:30:00Z",
+    "updated_at": null,
+    "assignee_first_name": null,
+    "assignee_last_name": null,
+    "status": "Pending",
+    "priority": "P3",
+    "affected_user_count": null,
+    "engineering_ref": null,
+    "comments": "Customer asks about exports.\nAgent requests the selected format."
+  }
+]

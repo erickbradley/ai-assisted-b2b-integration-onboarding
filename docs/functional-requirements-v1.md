@@ -1,5 +1,7 @@
 # AI-Assisted B2B Integration Onboarding Platform
 
+> Scope update (2026-10-25): v1 now uses flat support-ticket CSV uploads and a CRM-shaped canonical Support Case model. See [Support Case contract](support-case-contract-v1.md) for fields, validation and examples. This supersedes Company-centered wording; live CRM delivery, joins and ongoing synchronization remain outside v1.
+
 ## v1 Functional Requirements
 
 Status: Final\
@@ -9,18 +11,18 @@ Milestone: Trello Card #6 — Define functional requirements
 
 ## 1. Purpose and current scope
 
-The PoC demonstrates onboarding company-data files into a canonical Company model. It combines reuse of previously approved mappings, AI-assisted mapping when reuse is not possible, human confirmation, deterministic transformation, audit reporting, and bounded recovery of rejected records.
+The PoC demonstrates onboarding support-ticket files into a canonical Support Case model. It combines reuse of previously approved mappings, AI-assisted mapping when reuse is not possible, human confirmation, deterministic transformation, audit reporting, and bounded recovery of rejected records.
 
 ## 2. Actors
 
 - **Demo user:** uploads data, reviews mapping proposals and transformation previews, confirms or rejects mappings, requests AI revisions, views results, and exports rejected records.
-- **Integration service provider:** owns approved mapping definitions, establishes demo limits, and provides the canonical Company model.
+- **Integration service provider:** owns approved mapping definitions, establishes demo limits, and provides the canonical Support Case model.
 
 The PoC uses a temporary session-level demo identity and logically isolated workspace without account registration. For v1, “current user” means the visitor's temporary session identity. That identity scopes private workspace data, usage limits, and current-user mapping-search precedence during the session. Returning visitors do not need to resume the same identity, workspace, or prior work. Enterprise registration, identity administration, roles, and approval hierarchies are outside v1.
 
 ## 3. File intake and validation
 
-**FR-001 — Manual upload.** The first interaction must allow the user to upload a company-data file for processing.
+**FR-001 — Manual upload.** The first interaction must allow the user to upload a support-ticket file for processing.
 
 **FR-002 — Supported formats.** CSV is required. JSON is a non-blocking v1 stretch goal. YAML is deferred.
 
@@ -36,7 +38,7 @@ The PoC uses a temporary session-level demo identity and logically isolated work
 
 **FR-007 — Search order.** It must search mappings approved under the current temporary session identity newest-to-oldest, followed by service-owned shared mappings approved in other sessions newest-to-oldest. It must select the first compatible mapping found. The session-level identity provides search precedence and private provenance; it does not make the mapping definition user-owned or prevent approved mappings from becoming reusable across sessions.
 
-**FR-008 — Compatibility outcome.** Exact structural identity is not required. A mapping is compatible only when it can support a complete and unambiguous conversion to the current canonical Company model.
+**FR-008 — Compatibility outcome.** Exact structural identity is not required. A mapping is compatible only when it can support a complete and unambiguous conversion to the current canonical Support Case model.
 
 **FR-009 — Missing information.** A mapping is incompatible when information required by the canonical model is absent. The system must not fabricate missing source values.
 
@@ -44,7 +46,7 @@ The PoC uses a temporary session-level demo identity and logically isolated work
 
 ## 5. AI-assisted mapping
 
-**FR-011 — AI fallback.** If no approved mapping is compatible, the system must ask AI to propose a mapping to the canonical Company model.
+**FR-011 — AI fallback.** If no approved mapping is compatible, the system must ask AI to propose a mapping to the canonical Support Case model.
 
 **FR-012 — Unsuccessful proposal.** When AI cannot produce a complete and unambiguous mapping, the system must present its findings or failure reasons. It must not invent missing source data.
 
@@ -61,11 +63,11 @@ The PoC uses a temporary session-level demo identity and logically isolated work
 - Source-to-canonical mapping rules
 - A preview of transformed sample records
 - Every source field that will remain unmapped
-- The mapping version and canonical Company model version
+- The mapping version and canonical Support Case model version
 
 This requirement applies to reused and AI-generated mappings. Unused source fields do not invalidate an otherwise complete mapping.
 
-**FR-017 — Human control.** A mapping is eligible for approval and execution only when it can satisfy every required field in the canonical Company model completely and unambiguously, without fabricating missing source values. This applies to both reused and AI-generated mappings; unused source fields do not invalidate an otherwise complete mapping. Before confirmation, the system may apply the proposed mapping only to a bounded sample for the preview required by FR-016. Preview evaluation must not create a processing run, store successful business results, or make the mapping reusable. No mapping may be used for an actual processing run until the user confirms it.
+**FR-017 — Human control.** A mapping is eligible for approval and execution only when it can satisfy every required field in the canonical Support Case model completely and unambiguously, without fabricating missing source values. This applies to both reused and AI-generated mappings; unused source fields do not invalidate an otherwise complete mapping. Before confirmation, the system may apply the proposed mapping only to a bounded sample for the preview required by FR-016. Preview evaluation must not create a processing run, store successful business results, or make the mapping reusable. No mapping may be used for an actual processing run until the user confirms it.
 
 **FR-018 — Review actions.** The user may confirm the mapping, reject and discard it, or request an AI revision with hints while attempts remain.
 
@@ -81,9 +83,9 @@ This requirement applies to reused and AI-generated mappings. Unused source fiel
 
 **FR-023 — No ordinary activation state.** Normal mapping versioning does not require a separate active/inactive designation.
 
-**FR-024 — Canonical-model binding.** Every mapping must record the canonical Company model version against which it was approved.
+**FR-024 — Canonical-model binding.** Every mapping must record the canonical Support Case model version against which it was approved.
 
-**FR-025 — Canonical-model change.** When the canonical Company model version changes, mappings from earlier model versions become ineligible until revalidated. Earlier mapping definitions remain subject to the retention policy in FR-022 and NFR-7.6; a canonical-model change does not itself authorize immediate deletion.
+**FR-025 — Canonical-model change.** When the canonical Support Case model version changes, mappings from earlier model versions become ineligible until revalidated. Earlier mapping definitions remain subject to the retention policy in FR-022 and NFR-7.6; a canonical-model change does not itself authorize immediate deletion.
 
 Canonical-model administration and automated mapping revalidation are outside v1.
 
@@ -181,3 +183,8 @@ Card #6 is functionally satisfied when the following behaviors can be demonstrat
 - Production-scale storage, retention, and recovery controls
 - Optional conversion-progress visualization
 - The superseded runtime `IntegrationFailure` normalization and simulated remediation/replay workflow
+
+
+## 14. Support Case contract alignment
+
+**FR-048 — Target record contract.** Produce one canonical Support Case per successfully transformed source ticket according to the versioned [Support Case contract](support-case-contract-v1.md) and [JSON Schema](../schemas/support-case-v1.schema.json). The contract defines required/optional fields, null handling, timestamp and enum normalization, and bounded deterministic comment formatting. Flat inputs already include related organization/reporter details; joins and live CRM synchronization are outside v1. AI proposes mapping-time enum/formatting rules for review; it does not classify ticket severity or rewrite comments through runtime inference. Existing approval, partial-conversion, privacy, audit and retention requirements continue to apply.

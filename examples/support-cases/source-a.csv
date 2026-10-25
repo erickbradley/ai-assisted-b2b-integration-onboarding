@@ -1,0 +1,5 @@
+source_ticket_id,organization_name,reporter_first_name,reporter_last_name,reporter_email,reporter_role,subject,description,created_at,updated_at,assignee_first_name,assignee_last_name,status,priority,affected_user_count,engineering_ref,comments,unused_source_note
+SUP-1001,Example Harbor Labs,Alex,Example,alex@example.com,Administrator,Synthetic sign-in failure,Fictional demo: sign-in returns an error after an update.,2026-10-25T09:30:00-05:00,2026-10-25T10:00:00-05:00,,,Open,Urgent,450,ENG-4092,"[2026-10-25T14:35:00Z] Customer: Sign-in fails.
+[2026-10-25T14:40:00Z] Agent: Investigating.","Synthetic extra field, intentionally unmapped"
+SUP-1002,Example Harbor Labs,Alex,Example,,,Synthetic export question,Fictional demo: customer asks where exports are saved.,2026-10-25T09:30:00-05:00,,,,Pending,Normal,,,"Customer asks about exports.
+Agent requests the selected format.","Synthetic extra field, intentionally unmapped"
