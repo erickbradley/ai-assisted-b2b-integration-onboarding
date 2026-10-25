@@ -11,8 +11,6 @@ Milestone: Trello Card #6 — Define functional requirements
 
 The PoC demonstrates onboarding company-data files into a canonical Company model. It combines reuse of previously approved mappings, AI-assisted mapping when reuse is not possible, human confirmation, deterministic transformation, audit reporting, and bounded recovery of rejected records.
 
-This scope supersedes the earlier runtime `IntegrationFailure` normalization and simulated remediation/replay direction.
-
 ## 2. Actors
 
 - **Demo user:** uploads data, reviews mapping proposals and transformation previews, confirms or rejects mappings, requests AI revisions, views results, and exports rejected records.
@@ -103,7 +101,7 @@ Canonical-model administration and automated mapping revalidation are outside v1
 
 **FR-030 — File-level audit.** Each run must record what was processed, when it ran, who initiated it, the result, the exact mapping ID/version used, the canonical-model version, and accepted/rejected record counts. During the referenced mapping definition's retention period, its rules must be retrievable so a reviewer can determine how that run mapped the data. A duplicate copy of the rules in each run is not required. After an obsolete definition is deleted under FR-022/NFR-7.6, the audit reference remains but rule inspection is no longer guaranteed; this limitation is a demo/PoC concession.
 
-**FR-031 — Record-level review details.** During the applicable review/retention window, each record outcome must show its before-conversion fields, whether it was accepted or rejected, and the rejection reason when applicable. These business-record values are temporary review data, remain private to the user's workspace, and must be deleted under the applicable retention and storage-pressure policies. They are not part of the permanent append-only audit history.
+**FR-031 — Record-level review details.** During the applicable review/retention window, each record outcome must show its before-conversion fields, whether it was accepted or rejected, and the rejection reason when applicable. For accepted records, it must also show the corresponding after-conversion values. These business-record values are temporary review data, remain private to the user's workspace, and must be deleted under the applicable retention and storage-pressure policies. After-conversion values shown for audit are the retained transformed results, not a separate audit copy, and follow the same retention and early-eviction rules as those results (NFR-7.3, NFR-7.7, NFR-7.8). They are not part of the permanent append-only audit history.
 
 The permanent audit/provenance record retains metadata such as identifiers, event types, timestamps, actors, status, counts, failure classifications, mapping and canonical-model version references, and reprocessing relationships. It must not retain expired source, transformed, or rejected-record values.
 
@@ -135,7 +133,7 @@ The permanent audit/provenance record retains metadata such as identifiers, even
 
 ## 11. Demo experience
 
-**FR-042 — Downloadable sample.** The upload screen must provide a downloadable, editable synthetic CSV. It must not duplicate this with a separate in-app sample runner.
+**FR-042 — Downloadable sample.** The upload screen must provide a downloadable, editable synthetic CSV. Users must process the sample through the normal upload workflow; the app must not provide a separate in-app sample runner.
 
 **FR-043 — JSON sample.** A downloadable JSON sample is included only if JSON support ships.
 

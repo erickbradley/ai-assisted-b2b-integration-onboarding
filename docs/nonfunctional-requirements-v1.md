@@ -329,10 +329,11 @@ A processing run should retain sufficient provenance to identify:
 During the active review/retention window, an authorized workspace user must be able to inspect record-level outcomes including:
 
 - fields before conversion;
+- after-conversion values for accepted records;
 - whether the record succeeded or was rejected;
 - rejection reason where applicable.
 
-After record-level business data expires, this detail must no longer be retained.
+For accepted records, the after-conversion values shown in the record-level audit view are the retained transformed results described in NFR-7.3, not a separate audit copy. They follow the same retention and early-eviction rules as those results (NFR-7.7, NFR-7.8). Source and rejected-record values follow their applicable retention policies (NFR-7.2 and NFR-7.4). After the applicable record-level business data expires or is evicted, its values must no longer be retained.
 
 Record-level business values are temporary review data, not permanent append-only audit metadata. Permanent audit may retain the outcome, failure classification, identifiers, counts, and version references without retaining the expired values themselves.
 
