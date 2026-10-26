@@ -23,3 +23,4 @@ Support ticket CSV -> human-reviewed mapping -> deterministic CRM-shaped Support
 - [Support Case contract](docs/support-case-contract-v1.md)
 - [Target JSON Schema](schemas/support-case-v1.schema.json)
 - [Synthetic examples and expected results](examples/support-cases/README.md)
+- [Architecture workflows](docs/architecture-workflows.md)
