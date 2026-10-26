@@ -411,17 +411,27 @@ In a production enterprise implementation, successfully delivered data belongs t
 
 ## NFR-7.2 — Uploaded source files
 
-Uploaded source files must be short-lived.
+For each accepted upload, retain an **unchanged copy of the original received file bytes** before approved-mapping discovery, AI mapping, or transformation. Intake validation and restricted temporary staging may precede acceptance; this is not a requirement to archive every invalid or rejected upload. Parsing and normalization must operate on derived working data rather than overwrite the retained original. Storing an upload does not authorize a processing run or remove the human-confirmation boundary in NFR-2.3.
 
-They may be retained only long enough to support:
+The retained original has defined purposes:
 
-- processing;
-- review;
-- immediate troubleshooting.
+- processing and bounded sample review;
+- immediate troubleshooting and comparison with exactly what the platform received;
+- user-initiated recovery/reprocessing while the original remains available.
 
-The initial v1 retention window is **24 hours**.
+This is short-lived operational evidence, not an indefinite archive or a second authoritative business system. Do not rely on the visitor retaining an identical local copy. An unchanged received file establishes the received input, not the truth or completeness of the source business information.
 
-The value may be reduced after launch based on observed usage and cost.
+The initial source-retention window is **24 hours from upload acceptance**. Access, mapping revision, or retry/reprocessing of that upload must not reset or extend its expiration. A deliberately new upload has its own acceptance and retention lifecycle; creating working copies must not bypass the original upload's expiration. The period may be reduced after launch based on observed usage and cost. The established storage-pressure policy in NFR-7.7–7.8 can remove the original earlier with visible notice; full original-file replay is available only while it remains retained. Retained rejected records follow their separate recovery/retention policy and do not justify reconstructing or retaining an expired complete original.
+
+Protect the original using workspace isolation, encryption, and restricted access (NFR-3.1, NFR-3.6). Preserve its bytes during its permitted lifetime without preventing required deletion; no long-term WORM storage, legal hold, versioning configuration, or AWS service is selected here. Operational logs, shared mappings, and permanent audit must not become alternate copies of the file contents.
+
+After expiration or permitted early eviction, delete the original and copies retained under its source-file purpose; keep only the permitted audit/provenance metadata. Transformed results and rejected records remain governed by their own defined lifecycle (NFR-7.3–7.5), not by an archival exception. Architecture and validation must account for staging/working copies and, where applicable, noncurrent object versions or backups so they do not become a way to retain expired source content. Storage-lifecycle configuration alone is not proof of timely complete deletion; verify enforcement and cleanup failures rather than promise exact deletion from a configured expiration action.
+
+This scoped source-file retention does not permit retaining assembled AI prompts, interaction payloads, or extra AI-context copies after the interaction. The independently justified original remains under this policy; AI-specific context remains subject to NFR-3.5.
+
+### Decision rationale and evidence boundary
+
+Erick accepted this policy on 2026-10-26 to combine exact-input investigation and recovery with data minimization. Audit metadata can explain the recorded actions, mapping versions, counts and outcomes; it cannot reconstruct deleted source bytes. Once the source is deleted, exact-input inspection/replay is no longer available from that upload, even though audit history remains. A future file-content hash may help compare a later supplied file with the received bytes, but it cannot recover a deleted file or establish source truth; hashing is an unselected design option, not a new v1 requirement. Applicable production retention obligations must be established for the actual enterprise context; the demo's 24-hour policy is not a universal compliance requirement.
 
 ---
 
@@ -459,7 +469,7 @@ After source, transformed, and rejected record contents expire, the platform mus
 
 Expired business-record values must not remain in historical records.
 
-The append-only audit requirement therefore applies to the retained metadata listed above, not to temporary source, transformed, or rejected-record contents.
+The append-only audit requirement therefore applies to the retained metadata listed above, not to temporary source, transformed, or rejected-record contents. After the retained original is deleted under NFR-7.2, historical audit explains the recorded processing but does not provide the original bytes for exact-input investigation or full-file replay.
 
 ---
 

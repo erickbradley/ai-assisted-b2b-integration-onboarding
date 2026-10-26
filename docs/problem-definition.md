@@ -155,6 +155,8 @@ For v1, storing canonical results in the demo's canonical data store represents 
 
 Permanent, append-only audit/provenance metadata records what was processed, when, by whom, the exact mapping ID/version used, the canonical-model version, accepted/rejected counts, outcomes, failure classifications, and reprocessing relationships. The referenced mapping rules must remain retrievable during the mapping-definition retention period so a reviewer can understand how data was mapped in that specific run; a duplicate rule snapshot in every run is not required. Retaining only the reference after an obsolete definition is deleted, without guaranteeing continued rule inspection, is a demo/PoC concession.
 
+For each accepted upload, the platform preserves an unchanged original before mapping or transformation for short-lived review, troubleshooting and recovery. The source-retention window and deletion rules are defined in NFR-7.2; after deletion, retained audit metadata does not recreate the original input. This is not a long-term archival capability.
+
 During the active review window, temporary record-review details show before-conversion fields, outcomes, and rejection reasons. These business-record values remain private to the user's workspace and are deleted under the applicable retention and storage-pressure policies. They are not part of the permanent append-only audit history; historical audit retains metadata without expired source, transformed, or rejected-record values.
 
 Each run has an immutable outcome: **Full Success/Complete**, **Partial Success/Complete**, or **Total Failure**. Later recovery creates a linked run with its own audit and outcome; it does not change the original run's status.

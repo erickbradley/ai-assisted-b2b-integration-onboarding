@@ -22,7 +22,7 @@ The PoC uses a temporary session-level demo identity and logically isolated work
 
 ## 3. File intake and validation
 
-**FR-001 — Manual upload.** The first interaction must allow the user to upload a support-ticket file for processing.
+**FR-001 — Manual upload.** The first interaction must allow the user to upload a support-ticket file for processing. For an accepted upload, preserve the unchanged original before mapping discovery/inference or transformation, subject to NFR-7.2. Intake validation or temporary staging can occur first. Source capture is not approval to execute a processing run.
 
 **FR-002 — Supported formats.** CSV is required. JSON is a non-blocking v1 stretch goal. YAML is deferred.
 

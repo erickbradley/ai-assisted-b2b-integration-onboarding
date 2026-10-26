@@ -32,7 +32,7 @@ Carry these into the design even though the three drivers above receive particul
 
 - Isolate private workspace files, results, rejected records, and run data while allowing approved mapping definitions to be shared without private content.
 - Preserve exact mapping/canonical-model version provenance and append-only audit metadata.
-- Apply the defined business-data retention and early-eviction rules separately from retained audit metadata and mapping-definition retention.
+- Apply the defined business-data retention and early-eviction rules separately from retained audit metadata and mapping-definition retention. Preserve an unchanged accepted upload for short-lived exact-input review/recovery under NFR-7.2; access or retry does not extend its lifetime.
 - Enforce partial-conversion behavior, including no successful-result storage when partial conversion is off and any record fails.
 - Prevent accidental duplicate processing requests; retain immutable original run outcomes and link user-initiated recovery runs.
 - Respect the small interactive workload: CSV required, initially 50 data records per file, and a target of three concurrent visitors.

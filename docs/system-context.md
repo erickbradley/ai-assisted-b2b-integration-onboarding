@@ -46,7 +46,7 @@ The platform sends requests to providers and receives their responses; the table
 
 ## Platform-owned responsibilities
 
-- Intake validation and approved-mapping discovery before new AI inference.
+- Intake validation, unchanged accepted-source capture under NFR-7.2, and approved-mapping discovery before new AI inference.
 - Validation of mapping eligibility, review/preview presentation and human confirmation.
 - Approval tied to the exact reviewed mapping version; deterministic execution of the confirmed mapping.
 - Partial-conversion behavior, duplicate-request protection, run outcomes and bounded recovery/export.
@@ -63,7 +63,7 @@ AI returns a proposal, not authority to execute. A model's claim that a mapping 
 - Revision calls include the relevant mapping and context explicitly; provider memory is not assumed.
 - Minimize information exposed to inference. Application AI-context retention remains governed by the existing NFRs; provider retention behavior must be checked during selection.
 - Reusable mapping definitions exclude source records, sample values, user prompts, user identity and private audit history.
-- Workspace source files, results, rejected records and run details remain private to that workspace.
+- Workspace source files, results, rejected records and run details remain private to that workspace. The accepted original is retained unchanged only for the bounded source-file purposes and lifetime in NFR-7.2; later audit metadata does not substitute for deleted source bytes.
 - Before confirmation, bounded preview is allowed; an actual processing run, successful-result storage and reuse of an unapproved mapping are not.
 - Human verification is evidence that a visitor appears human, not a guarantee. Failed or unvalidated verification must not grant interactive access. Public project explanation and architecture information remain accessible; usage/cost controls continue after verification.
 
