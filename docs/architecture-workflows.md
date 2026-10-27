@@ -19,6 +19,33 @@ All paths use the [Support Case contract](support-case-contract-v1.md). One inpu
 
 ## 1. New upload with no compatible approved mapping
 
+### Flow overview
+
+Shared access, usage, sensitive-data and timeout controls still apply. The numbered walkthrough below owns the detailed behavior; the chart focuses on the human-review loop. AI proposals may remain incomplete: confirmation is allowed only for eligible versions.
+
+```mermaid
+flowchart TB
+    I["Intake, original capture and exposure checks"]
+    S["Search finds no compatible mapping"]
+    A["Bounded AI proposal or revision"]
+    V["Rules, versions and sample preview"]
+    D{"User action"}
+    L{"Revision allowance remains?"}
+    B["Explain revision limit"]
+    C["Confirm eligible reviewed version"]
+    X["Discard or exit"]
+    T["Deterministic run with partial setting"]
+    O["Store outcomes, audit and show results"]
+
+    I --> S --> A --> V --> D
+    D -->|"Revise with hints"| L
+    L -->|"Yes"| A
+    L -->|"No"| B --> V
+    D -->|"Approve if complete and unambiguous"| C --> T --> O
+    D -->|"Discard"| X
+```
+
+
 1. **Validate intake.** Reject unsupported/malformed, empty/header-only or unreadable content and uploads above the configured record limit (initially 50 data records, header excluded). Count parsed CSV records, not physical lines: comments can contain newlines. Reject an oversized file in full before search/inference; do not truncate (FR-003–005). These are intake checks, not a promise that every record will pass target validation.
 2. **Capture the accepted original and check data exposure.** Preserve the unchanged received bytes under NFR-7.2 before mapping or transformation; intake checks/restricted staging may occur first. Apply the best-effort suspected-sensitive-data safeguard before further AI exposure. If flagged, pause and require an explicit false-positive assertion that no prohibited data is present, or stop/discard. A warning alone is insufficient; an assertion does not authorize actual prohibited data (FR-044A). The precise scan/staging order remains design work.
 3. **Search approved mappings.** Search current-session approvals newest-to-oldest, then service-owned shared mappings newest-to-oldest; select the first compatible candidate bound to the current canonical version. In this scenario none is found (FR-006–010, FR-024–025).
@@ -30,6 +57,28 @@ All paths use the [Support Case contract](support-case-contract-v1.md). One inpu
 
 ## 2. New upload with a compatible approved mapping
 
+### Flow overview
+
+Reuse skips initial AI proposal generation, not review or confirmation. A requested change enters the bounded AI revision path and returns to review. Shared intake, original retention, access and usage rules remain applicable.
+
+```mermaid
+flowchart TB
+    I["Intake, original capture and exposure checks"]
+    M["Find compatible approved mapping"]
+    V["Rules, versions and fresh sample preview"]
+    D{"User action"}
+    A["Bounded AI revision path"]
+    C["Confirm eligible reviewed version"]
+    X["Discard or exit"]
+    T["Deterministic run, storage and audit"]
+
+    I --> M --> V --> D
+    D -->|"Revise if allowance remains"| A --> V
+    D -->|"Approve"| C --> T
+    D -->|"Discard"| X
+```
+
+
 1. Repeat the shared controls, intake validation, original-file capture and applicable sensitive-data checks.
 2. Search in the defined precedence order and establish compatibility with the current canonical model.
 3. **Skip the initial AI mapping-generation request.** Reuse is not proof that every new record is valid.
@@ -40,6 +89,38 @@ All paths use the [Support Case contract](support-case-contract-v1.md). One inpu
 The goal of reuse during an AI outage depends on compatibility evaluation being usable without the unavailable AI capability. That dependency is unresolved in the application profile; skipping proposal generation alone does not prove an AI-independent path.
 
 ## 3. Record failure and user-initiated recovery
+
+### Flow overview
+
+The original run applies the chosen partial-conversion policy before recovery starts. Recovery depends on retained input and user action; no branch below authorizes automatic retry or revision beyond the usage allowance.
+
+```mermaid
+flowchart TB
+    F["Record validation failure"]
+    P{"Allow partial conversion?"}
+    Y["Store valid results; separate rejected records"]
+    N["Store no canonical results; total failure"]
+    K{"Rejection cause"}
+    E["Export source records for correction"]
+    S["Search alternate compatible mapping"]
+    M{"Alternate mapping found?"}
+    A["User-requested bounded AI reevaluation"]
+    V["Review and confirm eligible mapping"]
+    R["New linked recovery run"]
+    O["Record new outcome; preserve original"]
+
+    F --> P
+    P -->|"On"| Y --> K
+    P -->|"Off"| N --> K
+    K -->|"Source data missing or invalid"| E
+    K -->|"Potentially mapping-correctable"| S --> M
+    M -->|"Yes"| V
+    M -->|"No"| A --> V
+    V --> R --> O
+```
+
+If recovery is declined, cannot establish an eligible mapping, or has exhausted its allowance, offer export while input is retained. Otherwise valid records withheld by all-or-nothing delivery are not inherently invalid; their presentation/export grouping remains open.
+
 
 1. **Distinguish mapping validity from record validity.** A correct mapping can encounter a blank required reporter last name in a particular ticket. A genuinely missing source value cannot be repaired by inventing data.
 2. **Apply the partial-conversion setting.** With On, store valid records and separate failures with reasons (Partial Success when at least one succeeds and one fails; Total Failure if none succeeds). With Off, any record failure means zero stored canonical results and Total Failure. Distinguish invalid records from otherwise valid records withheld under all-or-nothing delivery; exact export grouping/UI treatment remains open (FR-026–032).

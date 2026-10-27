@@ -24,3 +24,4 @@ Support ticket CSV -> human-reviewed mapping -> deterministic CRM-shaped Support
 - [Target JSON Schema](schemas/support-case-v1.schema.json)
 - [Synthetic examples and expected results](examples/support-cases/README.md)
 - [Architecture workflows](docs/architecture-workflows.md)
+- [Logical architecture and responsibilities](docs/logical-architecture.md)
