@@ -15,23 +15,21 @@ This view treats the platform as one system. Internal applications, storage, pro
 
 ```mermaid
 flowchart TB
-    Visitor["Demo visitor"]
-    Operator["Demo operator"]
-    Platform["AI-Assisted B2B Integration Onboarding Platform"]
-    AI["AI inference provider"]
-    Verify["Human-verification provider (if external)"]
+    V["Demo visitor"]
+    O["Demo operator"]
+    P["Onboarding platform"]
+    A["AI inference provider"]
+    H["Human verification, if external"]
 
-    Visitor -->|"Sample requests, uploads, review decisions, hints, recovery/export requests"| Platform
-    Platform -->|"Sample CSV, feedback, mapping previews, results, audit views, exports"| Visitor
-    Operator -->|"Limits, thresholds, configuration, manual resume authorization"| Platform
-    Platform -->|"Operational information and actionable alerts"| Operator
-    Platform -->|"Instructions, canonical model, source schema, bounded values, revision context"| AI
-    AI -->|"Mapping proposals, revisions, findings, or failure responses"| Platform
-    Platform -->|"Verification validation request; mechanism undecided"| Verify
-    Verify -->|"Verification result for platform validation"| Platform
+    V <-->|"Files, review and results"| P
+    O <-->|"Limits and alerts"| P
+    P <-->|"Mapping requests and proposals"| A
+    P <-->|"Verification requests and results"| H
 ```
 
-Arrows describe logical exchanges, not selected protocols or exact network paths. The inference provider's hosting/access mechanism and the use of an external verification provider remain undecided. Visitor-to-verification-provider interactions, if required by the selected mechanism, are not yet specified.
+[Open full-size diagram](../assets/diagrams/system-context.svg) for zooming on smaller screens.
+
+Arrows describe logical exchanges, not selected protocols or exact network paths. Two-way arrows summarize the exchanges; the interaction table specifies the information in each direction. Short labels keep the context view readable at normal document width. The inference provider's hosting/access mechanism and the use of an external verification provider remain undecided. Visitor-to-verification-provider interactions, if required by the selected mechanism, are not yet specified.
 
 ## Interaction table
 

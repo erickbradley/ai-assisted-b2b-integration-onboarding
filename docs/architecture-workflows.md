@@ -7,6 +7,8 @@ Date: 2026-10-26
 
 Trace three representative paths before identifying logical responsibilities or selecting AWS services. This document summarizes the authoritative requirements; it does not replace them, prescribe an internal database schema, or add a UI requirement.
 
+Diagram labels are shortened for readability; the surrounding walkthroughs retain the full checks, approval conditions, partial-conversion rules and retention boundaries.
+
 All paths use the [Support Case contract](support-case-contract-v1.md). One input CSV record represents one source ticket. Canonical results remain inside the demo; no live CRM delivery, joins, or synchronization is required.
 
 ## Shared entry conditions and controls
@@ -25,25 +27,27 @@ Shared access, usage, sensitive-data and timeout controls still apply. The numbe
 
 ```mermaid
 flowchart TB
-    I["Intake, original capture and exposure checks"]
-    S["Search finds no compatible mapping"]
-    A["Bounded AI proposal or revision"]
-    V["Rules, versions and sample preview"]
-    D{"User action"}
-    L{"Revision allowance remains?"}
-    B["Explain revision limit"]
-    C["Confirm eligible reviewed version"]
+    I["Validate and retain upload"]
+    S["Search: no match"]
+    A["AI mapping proposal"]
+    V["Rules and sample preview"]
+    D{"User action?"}
+    L{"Revision allowed?"}
+    B["Show revision limit"]
+    C["Confirm exact version"]
     X["Discard or exit"]
-    T["Deterministic run with partial setting"]
-    O["Store outcomes, audit and show results"]
+    T["Deterministic processing"]
+    O["Store and show outcomes"]
 
     I --> S --> A --> V --> D
-    D -->|"Revise with hints"| L
-    L -->|"Yes"| A
+    D -->|"Revise"| L
+    L -->|"Yes: user hints"| A
     L -->|"No"| B --> V
-    D -->|"Approve if complete and unambiguous"| C --> T --> O
+    D -->|"Approve eligible mapping"| C --> T --> O
     D -->|"Discard"| X
 ```
+
+[Open full-size diagram](../assets/diagrams/workflow-new-mapping.svg) for zooming on smaller screens.
 
 
 1. **Validate intake.** Reject unsupported/malformed, empty/header-only or unreadable content and uploads above the configured record limit (initially 50 data records, header excluded). Count parsed CSV records, not physical lines: comments can contain newlines. Reject an oversized file in full before search/inference; do not truncate (FR-003–005). These are intake checks, not a promise that every record will pass target validation.
@@ -63,20 +67,22 @@ Reuse skips initial AI proposal generation, not review or confirmation. A reques
 
 ```mermaid
 flowchart TB
-    I["Intake, original capture and exposure checks"]
-    M["Find compatible approved mapping"]
-    V["Rules, versions and fresh sample preview"]
-    D{"User action"}
-    A["Bounded AI revision path"]
-    C["Confirm eligible reviewed version"]
+    I["Validate and retain upload"]
+    M["Find compatible mapping"]
+    V["Rules and fresh preview"]
+    D{"User action?"}
+    A["Bounded AI revision"]
+    C["Confirm exact version"]
     X["Discard or exit"]
-    T["Deterministic run, storage and audit"]
+    T["Process, store and audit"]
 
     I --> M --> V --> D
-    D -->|"Revise if allowance remains"| A --> V
-    D -->|"Approve"| C --> T
+    D -->|"Revise if allowed"| A --> V
+    D -->|"Approve eligible mapping"| C --> T
     D -->|"Discard"| X
 ```
+
+[Open full-size diagram](../assets/diagrams/workflow-reuse.svg) for zooming on smaller screens.
 
 
 1. Repeat the shared controls, intake validation, original-file capture and applicable sensitive-data checks.
@@ -96,28 +102,30 @@ The original run applies the chosen partial-conversion policy before recovery st
 
 ```mermaid
 flowchart TB
-    F["Record validation failure"]
-    P{"Allow partial conversion?"}
-    Y["Store valid results; separate rejected records"]
-    N["Store no canonical results; total failure"]
-    K{"Rejection cause"}
-    E["Export source records for correction"]
-    S["Search alternate compatible mapping"]
-    M{"Alternate mapping found?"}
-    A["User-requested bounded AI reevaluation"]
-    V["Review and confirm eligible mapping"]
+    F["Record fails validation"]
+    P{"Partial conversion?"}
+    Y["Keep valid results"]
+    N["Reject whole run"]
+    K{"Rejection cause?"}
+    E["Export for correction"]
+    S["Search alternate mapping"]
+    M{"Mapping found?"}
+    A["Bounded AI reevaluation"]
+    V["Review and confirm"]
     R["New linked recovery run"]
-    O["Record new outcome; preserve original"]
+    O["Keep both run outcomes"]
 
     F --> P
     P -->|"On"| Y --> K
     P -->|"Off"| N --> K
-    K -->|"Source data missing or invalid"| E
-    K -->|"Potentially mapping-correctable"| S --> M
+    K -->|"Source data"| E
+    K -->|"Mapping-correctable"| S --> M
     M -->|"Yes"| V
-    M -->|"No"| A --> V
-    V --> R --> O
+    M -->|"No: user requests AI"| A --> V
+    V -->|"Eligible version approved"| R --> O
 ```
+
+[Open full-size diagram](../assets/diagrams/workflow-recovery.svg) for zooming on smaller screens.
 
 If recovery is declined, cannot establish an eligible mapping, or has exhausted its allowance, offer export while input is retained. Otherwise valid records withheld by all-or-nothing delivery are not inherently invalid; their presentation/export grouping remains open.
 

@@ -28,28 +28,25 @@ Canonical version awareness is included (FR-024–025). The current contract/sch
 
 ## Core logical relationships
 
-Arrows identify responsibility interactions, not APIs, deployment boundaries or an exact chronological sequence. Intake includes accepted-source capture before mapping. The interface submits actions; workflow control enforces the resulting permissions.
+Arrows identify responsibility interactions, not APIs, deployment boundaries or an exact chronological sequence. Labels are intentionally brief for normal document-width viewing; the ownership and interaction tables below retain the full detail. A two-way arrow summarizes requests and responses, not equal authority. Intake includes accepted-source capture before mapping. The interface submits actions; workflow control enforces the resulting permissions.
 
 ```mermaid
 flowchart TB
     UI["Demo interface"]
     W["Workflow control"]
-    I["Upload intake and capture"]
-    M["Mapping and canonical contracts"]
-    A["AI proposals and revisions"]
-    T["Transformation and results"]
+    I["Upload intake"]
+    M["Mappings and contracts"]
+    A["AI proposals"]
+    T["Transform data"]
 
-    UI -->|"Requests and user decisions"| W
-    W -->|"Review state and results"| UI
-    W -->|"Accept and validate upload"| I
-    I -->|"Source reference and findings"| W
-    W -->|"Find or persist approved version"| M
-    M -->|"Contract and compatible mapping"| W
-    W -->|"Bounded proposal or revision request"| A
-    A -->|"Proposed rules and findings"| W
-    W -->|"Bounded preview or authorized run"| T
-    T -->|"Preview, outcomes and exports"| W
+    UI <-->|"Actions and views"| W
+    W <-->|"Intake findings"| I
+    W <-->|"Versioned rules"| M
+    W <-->|"Proposals"| A
+    W <-->|"Preview or run"| T
 ```
+
+[Open full-size diagram](../assets/diagrams/logical-core.svg) for zooming on smaller screens.
 
 A preview authorization is different from processing authorization: it permits bounded sample evaluation only. A run requires explicit confirmation of the eligible reviewed mapping version. The mapping owner provides the canonical contract and exact mapping rules to the AI/transformation paths; workflow coordinates their use without prescribing a data-copying implementation.
 
@@ -60,21 +57,20 @@ The following complementary view accounts for the other four responsibilities. E
 ```mermaid
 flowchart TB
     W["Workflow and work owners"]
-    S["Session access and workspace"]
-    C["Cost, usage and monitoring"]
+    S["Session and workspace"]
+    C["Usage and monitoring"]
     U["Audit and provenance"]
-    R["Data retention and lifecycle"]
+    R["Retention and cleanup"]
 
-    W -->|"Check workspace access"| S
-    S -->|"Access decision and scope"| W
-    W -->|"Check and account for consumption"| C
-    C -->|"Allow, block or signal failure"| W
-    W -->|"Emit material event metadata"| U
-    W -->|"Register artifact lifecycle"| R
-    R -->|"Expiry, cleanup or early eviction"| W
-    R -->|"Deletion event metadata"| U
-    R -->|"Cleanup health and storage usage"| C
+    W <-->|"Access checks"| S
+    W <-->|"Usage checks"| C
+    W -->|"Event metadata"| U
+    W <-->|"Artifact lifecycle"| R
+    R -->|"Deletion events"| U
+    R -->|"Cleanup metrics"| C
 ```
+
+[Open full-size diagram](../assets/diagrams/logical-controls.svg) for zooming on smaller screens.
 
 Audit/monitoring receive events from all relevant work owners; the diagram does not require routing every event through one workflow process. Retention uses source, result, rejection and mapping policies independently; it does not purge retained audit history with business values.
 

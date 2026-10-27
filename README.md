@@ -25,3 +25,7 @@ Support ticket CSV -> human-reviewed mapping -> deterministic CRM-shaped Support
 - [Synthetic examples and expected results](examples/support-cases/README.md)
 - [Architecture workflows](docs/architecture-workflows.md)
 - [Logical architecture and responsibilities](docs/logical-architecture.md)
+
+## Diagram viewing
+
+Architecture documents contain editable Mermaid diagrams and links to full-size SVG copies in [assets/diagrams](assets/diagrams) for zooming. When a diagram changes, regenerate its SVG copy from the Mermaid source using native SVG text labels, then check both views for clipped or overlapping text.
