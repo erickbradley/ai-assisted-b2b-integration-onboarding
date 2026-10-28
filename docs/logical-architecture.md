@@ -3,6 +3,8 @@
 Status: Step 5 initial design baseline; logical responsibilities, not ten deployed services.
 Date: 2026-10-26
 
+Implementation mapping: the newer [AWS service mapping draft](aws-service-mapping-draft.md) records candidate services and subsequent execution/audit decisions. This document remains the logical responsibility view.
+
 ## Purpose and scope
 
 Group the work in the [architecture workflows](architecture-workflows.md) into clear owners before selecting AWS services. Related responsibilities may share one application, function or data store. This document selects logical boundaries only; physical storage, service mapping, protocols and concurrency mechanisms remain open.
@@ -85,7 +87,7 @@ Audit/monitoring receive events from all relevant work owners; the diagram does 
 | AI proposals -> workflow/review | Candidate reusable rules and findings | AI returns a proposal, never approval or processing authority; incomplete/ambiguous candidates remain blocked |
 | Workflow -> transformation | Bounded preview request or confirmed run with exact versions and partial-conversion choice | Keep preview separate from delivered results; prevent duplicate independent runs; no runtime LLM classification/rewriting |
 | Workflow -> mapping management | Approval evidence plus eligible reviewed definition/version | Persist reusable rules and canonical binding without private source values, prompts, user identity or audit history in shared definitions |
-| Transformation -> workflow/interface | Record outcomes, rejection classification, stored-result references and exports | Correct partial/all-or-nothing behavior; report successful delivery only after required storage/audit completion |
+| Transformation -> workflow/interface | Record outcomes, rejection classification, stored-result references and exports | Correct partial/all-or-nothing behavior; confirm required result storage before reporting delivery, and expose final-audit persistence failure as a separate warning under the [service-mapping draft](aws-service-mapping-draft.md); approval provenance must be durable before execution |
 | Recovery workflow -> transformation | Explicit recovery input and a new request linked to the original run | Human review again where mapping changes; original outcome immutable; no automatic retries or silent replay of successful records |
 | Artifact owners -> retention/audit/monitoring | Artifact identities/lifetimes and permitted event metadata | Delete business values by policy without restarting original-file expiry; preserve metadata-only history and surface failures |
 

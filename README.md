@@ -25,6 +25,7 @@ Support ticket CSV -> human-reviewed mapping -> deterministic CRM-shaped Support
 - [Synthetic examples and expected results](examples/support-cases/README.md)
 - [Architecture workflows](docs/architecture-workflows.md)
 - [Logical architecture and responsibilities](docs/logical-architecture.md)
+- [AWS service mapping - first draft](docs/aws-service-mapping-draft.md)
 
 ## Diagram viewing
 
