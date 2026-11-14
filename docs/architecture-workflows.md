@@ -3,7 +3,7 @@
 Status: Step 4 discussion summary; required behavior and conceptual state, not an implemented workflow or selected architecture.
 Date: 2026-10-26
 
-Implementation mapping: see the newer [AWS service mapping draft](aws-service-mapping-draft.md) for candidate services and the clarified audit-failure boundary. The numbered walkthroughs remain the logical workflow reference.
+Implementation mapping: see the newer [AWS service mapping draft](aws-service-mapping-draft.md) for candidate services and the clarified audit-failure boundary. The numbered walkthroughs remain the logical workflow reference. The newer [orchestration ADR](architecture-orchestration.md) selects Standard coordination, backend approval, executor ownership, polling/download delivery and independent cleanup.
 
 ## Purpose
 
@@ -53,7 +53,7 @@ flowchart TB
 
 
 1. **Validate intake.** Reject unsupported/malformed, empty/header-only or unreadable content and uploads above the configured record limit (initially 50 data records, header excluded). Count parsed CSV records, not physical lines: comments can contain newlines. Reject an oversized file in full before search/inference; do not truncate (FR-003–005). These are intake checks, not a promise that every record will pass target validation.
-2. **Capture the accepted original and check data exposure.** Preserve the unchanged received bytes under NFR-7.2 before mapping or transformation; intake checks/restricted staging may occur first. Apply the best-effort suspected-sensitive-data safeguard before further AI exposure. If flagged, pause and require an explicit false-positive assertion that no prohibited data is present, or stop/discard. A warning alone is insufficient; an assertion does not authorize actual prohibited data (FR-044A). The precise scan/staging order remains design work.
+2. **Capture the accepted original and check data exposure.** Preserve the unchanged received bytes under NFR-7.2 before mapping or transformation; intake checks/restricted staging may occur first. Apply the best-effort suspected-sensitive-data safeguard before further AI exposure. If flagged, pause and require an explicit false-positive assertion that no prohibited data is present, or stop/discard. A warning alone is insufficient; an assertion does not authorize actual prohibited data (FR-044A). The orchestration ADR selects backend screening and any required false-positive assertion before accepted-original retention; temporary buffering/staging details remain open.
 3. **Search approved mappings.** Search current-session approvals newest-to-oldest, then service-owned shared mappings newest-to-oldest; select the first compatible candidate bound to the current canonical version. In this scenario none is found (FR-006–010, FR-024–025).
 4. **Request a bounded AI proposal.** Supply the canonical contract, mapping instructions, source schema and bounded sample values as needed. AI proposes reusable deterministic mapping/formatting rules or explains why a complete, unambiguous mapping cannot be established; do not fabricate missing source values (FR-011–012, FR-048).
 5. **Pause for human review.** Show mapping rules, mapping/canonical versions, bounded transformed-sample preview, unmapped source fields and findings. Preview does not create a processing run, store successful business results or make an unapproved mapping reusable. Permit confirmation only for a complete, unambiguous mapping; otherwise allow hints/revision while attempts remain, or discard (FR-016–018).
@@ -164,7 +164,7 @@ This is a responsibility/state checklist, not a physical data-store design. Pers
 
 ## Open design questions
 
-Mapping compatibility/representation; bounded preview/sample selection; hard timeout and numeric upload/field limits; quota values; working-state cleanup; how to enforce all-or-nothing storage, exact-version approval and idempotency; storage layout and execution orchestration. These are later design tasks, not answers selected by this workflow exercise.
+Mapping compatibility/representation; bounded preview/sample selection; hard timeout and numeric upload/field limits; quota values; working-state cleanup; how to enforce all-or-nothing storage, exact-version approval and idempotency; storage layout and detailed execution protocols. Responsibility-level orchestration choices are now recorded in the newer ADR; detailed mechanisms remain implementation tasks.
 
 ## Sources and decision provenance
 

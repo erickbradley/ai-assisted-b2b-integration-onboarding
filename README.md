@@ -26,7 +26,11 @@ Support ticket CSV -> human-reviewed mapping -> deterministic CRM-shaped Support
 - [Architecture workflows](docs/architecture-workflows.md)
 - [Logical architecture and responsibilities](docs/logical-architecture.md)
 - [AWS service mapping - first draft](docs/aws-service-mapping-draft.md)
+- [Orchestration and communication decisions](docs/architecture-orchestration.md)
+- [Editable AWS architecture diagram](assets/diagrams/aws-architecture.drawio)
 
 ## Diagram viewing
+
+The AWS draw.io file has separate service-overview, approval/execution and operations pages. Open it in draw.io/diagrams.net; it is an editable source, not a rendered image.
 
 Architecture documents contain editable Mermaid diagrams and links to full-size SVG copies in [assets/diagrams](assets/diagrams) for zooming. When a diagram changes, regenerate its SVG copy from the Mermaid source using native SVG text labels, then check both views for clipped or overlapping text.

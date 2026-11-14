@@ -3,11 +3,11 @@
 Status: Step 5 initial design baseline; logical responsibilities, not ten deployed services.
 Date: 2026-10-26
 
-Implementation mapping: the newer [AWS service mapping draft](aws-service-mapping-draft.md) records candidate services and subsequent execution/audit decisions. This document remains the logical responsibility view.
+Implementation mapping: the newer [AWS service mapping draft](aws-service-mapping-draft.md) records candidate services and subsequent execution/audit decisions. The [orchestration ADR](architecture-orchestration.md) allocates approval capture to the backend, processing evidence/storage to the executor, and sequencing to Step Functions. This document remains the logical responsibility view.
 
 ## Purpose and scope
 
-Group the work in the [architecture workflows](architecture-workflows.md) into clear owners before selecting AWS services. Related responsibilities may share one application, function or data store. This document selects logical boundaries only; physical storage, service mapping, protocols and concurrency mechanisms remain open.
+Group the work in the [architecture workflows](architecture-workflows.md) into clear owners before selecting AWS services. Related responsibilities may share one application, function or data store. This document selects logical boundaries only; physical storage, service mapping, protocols and concurrency mechanisms are allocated or left open in the newer service-mapping/orchestration ADRs.
 
 The scenario remains support-ticket CSV onboarding into the versioned CRM-shaped Support Case contract, with human confirmation and deterministic execution. Existing requirements remain authoritative.
 
@@ -94,7 +94,7 @@ Audit/monitoring receive events from all relevant work owners; the diagram does 
 ## Boundary checks and open implementation questions
 
 - AI attempt accounting is authoritative under cost/usage control; workflow enforces allowed transitions and the inference adapter must not bypass admission. A shared counter/reservation mechanism is not selected.
-- Workflow owns operational run state; audit owns immutable historical evidence. Updating operational progress does not rewrite a completed run's audited outcome. Consistency/commit behavior across result storage, run outcome, approval persistence and audit is implementation design work.
+- Workflow coordination owns lifecycle transitions; the executor records its processing outcome and storage evidence under the newer orchestration ADR, while the backend records approval. Audit owns immutable historical evidence. Updating operational progress does not rewrite a completed run's audited outcome. Consistency/commit behavior across result storage, run outcome, approval persistence and audit is implementation design work.
 - Mapping management owns approved definitions; workflow owns pending-review/confirmation state. Transformation evaluates mappings/records against the supplied canonical contract and reports validity findings used by the approval gate.
 - Sensitive-data detection/false-positive assertion does not prove synthetic-data compliance. Access enforcement continues for previews, results, exports and recovery.
 - Retention cannot erase pending work by accident or extend expired source content through copies/retries; timeout, retention-expiry and cleanup coordination must be designed.

@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" modified="2026-11-14T00:00:00.000Z" type="device">
+  <diagram id="kgc4ujPnM6lxcchIX9fw" name="1 - AWS service overview">
+    <mxGraphModel grid="1" gridSize="10" guides="1" connect="1" arrows="1" page="1" pageWidth="1480" pageHeight="1440" adaptiveColors="auto" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="&lt;b&gt;AI-assisted B2B integration onboarding&lt;/b&gt;" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=25;fontColor=#34445C;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="15" width="1400" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="First architecture draft • 2026-11-14 • AWS managed-service boundaries; no customer VPC/subnet placement selected" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=16;fontColor=#34445C;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="65" width="1400" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="visitor" value="&lt;b&gt;Demo visitor&lt;/b&gt;&lt;br&gt;Upload • review • poll • download" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#7C8795;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="580" y="145" width="320" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="dns" value="&lt;b&gt;Route 53&lt;/b&gt;&lt;br&gt;Demo hostname TBD" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#EEF4FF;strokeColor=#426A9B;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="70" y="145" width="320" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="dns-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#8C4FFF;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.route_53;labelPerimeter=1;" vertex="1" parent="dns">
+          <mxGeometry x="12" y="26.5" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="turn" value="&lt;b&gt;Cloudflare Turnstile&lt;/b&gt;&lt;br&gt;Widget + backend Siteverify" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#7C8795;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="145" width="320" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="cdn" value="&lt;b&gt;CloudFront + ACM&lt;/b&gt;&lt;br&gt;HTTPS • certificate in us-east-1" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#EEF4FF;strokeColor=#426A9B;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="70" y="330" width="320" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="cdn-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#8C4FFF;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudfront;labelPerimeter=1;" vertex="1" parent="cdn">
+          <mxGeometry x="12" y="26.5" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="api" value="&lt;b&gt;API Gateway HTTP API&lt;/b&gt;&lt;br&gt;Per-request application boundary" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#EEF4FF;strokeColor=#426A9B;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="580" y="330" width="320" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="api-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#8C4FFF;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.api_gateway;labelPerimeter=1;" vertex="1" parent="api">
+          <mxGeometry x="12" y="26.5" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="web" value="&lt;b&gt;S3 frontend assets&lt;/b&gt;&lt;br&gt;Private origin via OAC" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F2EEFA;strokeColor=#8064A2;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="70" y="515" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="web-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#7AA116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;labelPerimeter=1;" vertex="1" parent="web">
+          <mxGeometry x="12" y="34.0" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="backend" value="&lt;b&gt;Application backend • Lambda&lt;/b&gt;&lt;br&gt;Entry • intake • approval&lt;br&gt;Polling • file delivery" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#EEF4FF;strokeColor=#426A9B;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="580" y="515" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="backend-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;labelPerimeter=1;" vertex="1" parent="backend">
+          <mxGeometry x="12" y="34.0" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;S3 accepted originals&lt;/b&gt;&lt;br&gt;Unchanged • short retention" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F2EEFA;strokeColor=#8064A2;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="515" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="source-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#7AA116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;labelPerimeter=1;" vertex="1" parent="source">
+          <mxGeometry x="12" y="34.0" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="ddb" value="&lt;b&gt;DynamoDB on-demand&lt;/b&gt;&lt;br&gt;Mappings • approval • state&lt;br&gt;Audit metadata • usage" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F2EEFA;strokeColor=#8064A2;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="70" y="735" width="320" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="ddb-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#C925D1;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.dynamodb;labelPerimeter=1;" vertex="1" parent="ddb">
+          <mxGeometry x="12" y="36.5" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="sf" value="&lt;b&gt;Step Functions • Standard&lt;/b&gt;&lt;br&gt;Coordinate • human-review wait&lt;br&gt;Invoke approved execution" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFF3E4;strokeColor=#C88838;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="580" y="735" width="320" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="sf-icon" value="" style="shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.step_functions;fillColor=#CD2264;strokeColor=none;html=1;" vertex="1" parent="sf">
+          <mxGeometry x="12" y="36.5" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="bedrock" value="&lt;b&gt;Amazon Bedrock&lt;/b&gt;&lt;br&gt;Proposal + model self-check&lt;br&gt;History-retention proof required" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#EEF4FF;strokeColor=#426A9B;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="735" width="320" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="bedrock-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#01A88D;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.bedrock;labelPerimeter=1;" vertex="1" parent="bedrock">
+          <mxGeometry x="12" y="36.5" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="search" value="&lt;b&gt;Mapping evaluation • Lambda&lt;/b&gt;&lt;br&gt;Retrieve + assess candidates" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#EEF4FF;strokeColor=#426A9B;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="70" y="965" width="320" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="search-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;labelPerimeter=1;" vertex="1" parent="search">
+          <mxGeometry x="12" y="36.5" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="executor" value="&lt;b&gt;Transformation executor&lt;/b&gt;&lt;br&gt;Preview / approved processing&lt;br&gt;Library in Lambda vs Glue OPEN" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFF3E4;strokeColor=#C88838;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="580" y="965" width="320" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="artifacts" value="&lt;b&gt;S3 processing artifacts&lt;/b&gt;&lt;br&gt;Results • rejections • working data&lt;br&gt;Prefix layout proposed" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F2EEFA;strokeColor=#8064A2;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="965" width="320" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="artifacts-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#7AA116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;labelPerimeter=1;" vertex="1" parent="artifacts">
+          <mxGeometry x="12" y="36.5" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-1" value="DNS association" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="dns" target="cdn">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-2" value="HTTPS" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="visitor" target="cdn">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-3" value="OAC" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="cdn" target="web">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-4" value="API requests" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="visitor" target="api">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-5" value="Widget" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="visitor" target="turn">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-6" value="Routes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="api" target="backend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-7" value="Siteverify" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="backend" target="turn">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-8" value="Store accepted" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="backend" target="source">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-9" value="Start / callback" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="backend" target="sf">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-10" value="State / approval" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="backend" target="ddb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-11" value="Search" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="sf" target="search">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-12" value="Candidates" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="search" target="ddb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-13" value="Infer if needed" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="sf" target="bedrock">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-14" value="Preview / execute" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="sf" target="executor">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-15" value="Store permitted" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="executor" target="artifacts">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="notes" value="&lt;b&gt;Additional relationships are detailed on pages 2–3.&lt;/b&gt; Executor reads private input and records outcomes in DynamoDB; backend delivers retained files.&lt;br&gt;Artifacts are not public frontend origins. Bucket/table counts and backend operation grouping remain open.&lt;br&gt;&lt;b&gt;Legend:&lt;/b&gt; dashed = asynchronous handoff or configuration association; solid = task/data dependency. All relationships are conceptual." style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=16;fontColor=#34445C;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="45" y="1160" width="1390" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="open" value="&lt;b&gt;Open before implementation:&lt;/b&gt; engine selection • compatibility method • model/prompt • managed-history privacy&lt;br&gt;Approval/callback and S3/DynamoDB consistency • timeout/cancellation • cost and request-size feasibility&lt;br&gt;Monitoring/cleanup/SNS and access/cost boundaries: page 3." style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=16;fontColor=#34445C;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="45" y="1300" width="1390" height="110" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="approval-execution" name="2 - Approval and execution">
+    <mxGraphModel grid="1" gridSize="10" guides="1" connect="1" arrows="1" page="1" pageWidth="1480" pageHeight="1360" adaptiveColors="auto" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="&lt;b&gt;Approval, execution and result delivery&lt;/b&gt;" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=25;fontColor=#34445C;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="15" width="1400" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Preview is not processing approval • Orchestration carries references and necessary metadata, not retained business payloads" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=16;fontColor=#34445C;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="65" width="1400" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="intake" value="&lt;b&gt;Intake backend&lt;/b&gt;&lt;br&gt;Validate + screen&lt;br&gt;Store accepted original" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#EEF4FF;strokeColor=#426A9B;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="70" y="145" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="intake-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;labelPerimeter=1;" vertex="1" parent="intake">
+          <mxGeometry x="12" y="34.0" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="sf" value="&lt;b&gt;Main Standard workflow&lt;/b&gt;&lt;br&gt;Search → infer if needed" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFF3E4;strokeColor=#C88838;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="580" y="145" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="sf-icon" value="" style="shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.step_functions;fillColor=#CD2264;strokeColor=none;html=1;" vertex="1" parent="sf">
+          <mxGeometry x="12" y="34.0" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="preview" value="&lt;b&gt;Executor preview&lt;/b&gt;&lt;br&gt;Validate definition + sample&lt;br&gt;No published business results" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#EEF4FF;strokeColor=#426A9B;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="580" y="350" width="320" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="review" value="&lt;b&gt;Human review&lt;/b&gt;&lt;br&gt;Rules + preview + exact version" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#7C8795;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="70" y="350" width="320" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="issues" value="&lt;b&gt;Findings / correction&lt;/b&gt;&lt;br&gt;User-requested revisions only&lt;br&gt;Initial attempt + up to 2 revisions" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFF3E4;strokeColor=#C88838;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="350" width="320" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="approve" value="&lt;b&gt;Approval backend&lt;/b&gt;&lt;br&gt;Check session / version / eligibility&lt;br&gt;Record approval before callback" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#EEF4FF;strokeColor=#426A9B;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="70" y="560" width="320" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="approve-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;labelPerimeter=1;" vertex="1" parent="approve">
+          <mxGeometry x="12" y="36.5" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="wait" value="&lt;b&gt;Durable review wait&lt;/b&gt;&lt;br&gt;Approve • revise • discard&lt;br&gt;Unanswered review expires" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFF3E4;strokeColor=#C88838;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="580" y="560" width="320" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="stop" value="&lt;b&gt;End without transformation&lt;/b&gt;&lt;br&gt;Discard / expiry / invalid approval" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFF0EF;strokeColor=#B86B64;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="560" width="320" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="approval" value="&lt;b&gt;DynamoDB approval&lt;/b&gt;&lt;br&gt;Exact-version provenance&lt;br&gt;Write failure blocks execution" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F2EEFA;strokeColor=#8064A2;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="70" y="770" width="320" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="approval-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#C925D1;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.dynamodb;labelPerimeter=1;" vertex="1" parent="approval">
+          <mxGeometry x="12" y="36.5" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="execute" value="&lt;b&gt;Executor processing mode&lt;/b&gt;&lt;br&gt;Check caller + recorded approval&lt;br&gt;Prevent duplicate independent runs" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#EEF4FF;strokeColor=#426A9B;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="580" y="770" width="320" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="input" value="&lt;b&gt;S3 retained input&lt;/b&gt;&lt;br&gt;Private • must still be available" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F2EEFA;strokeColor=#8064A2;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="770" width="320" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="input-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#7AA116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;labelPerimeter=1;" vertex="1" parent="input">
+          <mxGeometry x="12" y="36.5" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="outcome" value="&lt;b&gt;DynamoDB outcome / audit&lt;/b&gt;&lt;br&gt;Counts • versions • references" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F2EEFA;strokeColor=#8064A2;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="70" y="980" width="320" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="outcome-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#C925D1;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.dynamodb;labelPerimeter=1;" vertex="1" parent="outcome">
+          <mxGeometry x="12" y="36.5" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="files" value="&lt;b&gt;S3 result artifacts&lt;/b&gt;&lt;br&gt;Partial Off + any record failure:&lt;br&gt;zero published canonical results" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F2EEFA;strokeColor=#8064A2;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="580" y="980" width="320" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="files-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#7AA116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;labelPerimeter=1;" vertex="1" parent="files">
+          <mxGeometry x="12" y="36.5" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="results" value="&lt;b&gt;Backend → browser&lt;/b&gt;&lt;br&gt;Poll recorded status&lt;br&gt;Authorized file delivery" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#EEF4FF;strokeColor=#426A9B;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="980" width="320" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="results-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;labelPerimeter=1;" vertex="1" parent="results">
+          <mxGeometry x="12" y="36.5" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-1" value="Explicit start" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="intake" target="sf">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-2" value="Candidate" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="sf" target="preview">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-3" value="Valid preview" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="preview" target="review">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-4" value="Invalid mapping" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="preview" target="issues">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-5" value="Revision" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;dashed=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="issues" target="sf">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-6" value="Ready" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="review" target="wait">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-7" value="Approve" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="review" target="approve">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-8" value="Record first" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="approve" target="approval">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-9" value="Callback after write" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="approve" target="wait">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-10" value="Approved" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="wait" target="execute">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-11" value="Discard / expire" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="wait" target="stop">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-12" value="Read" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="execute" target="input">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-13" value="Transform / validate" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="execute" target="files">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-14" value="Record outcome" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="execute" target="outcome">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-15" value="Fetch" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="results" target="files">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-16" value="Read status" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="results" target="outcome">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="notes" value="&lt;b&gt;Failure boundaries:&lt;/b&gt; S3 publication and DynamoDB outcome recording are not one atomic transaction.&lt;br&gt;Confirmed results + final audit failure → true outcome with separate audit warning. Missing executor response is an uncertain outcome.&lt;br&gt;&lt;b&gt;User-initiated reprocessing:&lt;/b&gt; new linked run, fresh approval, original outcome preserved. Definition-sharing details deferred.&lt;br&gt;&lt;b&gt;Legend:&lt;/b&gt; dashed = asynchronous handoff; solid = task/data/decision dependency." style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=16;fontColor=#34445C;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="45" y="1150" width="1390" height="160" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="operations" name="3 - Operations and open choices">
+    <mxGraphModel grid="1" gridSize="10" guides="1" connect="1" arrows="1" page="1" pageWidth="1480" pageHeight="1170" adaptiveColors="auto" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="&lt;b&gt;Independent operations and validation backlog&lt;/b&gt;" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=25;fontColor=#34445C;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="15" width="1400" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Supporting delivery failures do not invalidate primary success; approval and audit remain required boundaries" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=16;fontColor=#34445C;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="65" width="1400" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="scheduler" value="&lt;b&gt;Independent schedule&lt;/b&gt;&lt;br&gt;EventBridge Scheduler proposed" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFF3E4;strokeColor=#C88838;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="70" y="155" width="580" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="scheduler-icon" value="" style="shape=mxgraph.aws4.eventbridge_scheduler;fillColor=#E7157B;strokeColor=none;html=1;" vertex="1" parent="scheduler">
+          <mxGeometry x="12" y="29.0" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="cw" value="&lt;b&gt;CloudWatch&lt;/b&gt;&lt;br&gt;Operational logs • metrics • alarms" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#EEF4FF;strokeColor=#426A9B;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="830" y="155" width="580" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="cleanup" value="&lt;b&gt;Cleanup Lambda&lt;/b&gt;&lt;br&gt;One bounded task&lt;br&gt;Coordinate with executing work" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#EEF4FF;strokeColor=#426A9B;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="70" y="365" width="270" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="cleanup-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;labelPerimeter=1;" vertex="1" parent="cleanup">
+          <mxGeometry x="12" y="39.0" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="data" value="&lt;b&gt;S3 + DynamoDB&lt;/b&gt;&lt;br&gt;Delete eligible payloads&lt;br&gt;Preserve audit metadata" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F2EEFA;strokeColor=#8064A2;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="390" y="365" width="270" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="sns" value="&lt;b&gt;Amazon SNS&lt;/b&gt;&lt;br&gt;Operator notifications" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFF3E4;strokeColor=#C88838;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
+          <mxGeometry x="830" y="365" width="270" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="sns-icon" value="" style="shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.sns;fillColor=#E7157B;strokeColor=none;html=1;" vertex="1" parent="sns">
+          <mxGeometry x="12" y="39.0" width="42" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="operator" value="&lt;b&gt;Operator&lt;/b&gt;&lt;br&gt;Cost / failures&lt;br&gt;Optional usage notices" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#7C8795;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="365" width="270" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-1" value="Scheduled" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;dashed=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="scheduler" target="cleanup">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-2" value="Apply policy" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="cleanup" target="data">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-3" value="Alarms" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;dashed=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="cw" target="sns">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-4" value="Notify" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="sns" target="operator">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="retention" value="Open/idle sessions do not extend retention.&lt;br&gt;Active execution reaching input expiry remains unresolved." style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=16;fontColor=#34445C;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="65" y="535" width="620" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="notify" value="Work owners may publish notifications too.&lt;br&gt;Record notification failure separately; do not fail the demo." style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=16;fontColor=#34445C;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="825" y="535" width="600" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="iam" value="&lt;b&gt;IAM + managed secrets&lt;/b&gt;&lt;br&gt;Component-specific permissions&lt;br&gt;Secret-store service OPEN" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#7C8795;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="70" y="670" width="410" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="cost" value="&lt;b&gt;Usage / financial controls&lt;/b&gt;&lt;br&gt;Admission • shutdown • manual resume&lt;br&gt;Mechanism and thresholds OPEN" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#7C8795;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="535" y="670" width="410" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="budget" value="&lt;b&gt;Cost and workload proof&lt;/b&gt;&lt;br&gt;Provisional $20/month ceiling&lt;br&gt;Idle / active / per-run unvalidated" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFF3E4;strokeColor=#C88838;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="670" width="410" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="open" value="&lt;b&gt;Validate before implementation commitments&lt;/b&gt;&lt;br&gt;Engine/library vs Glue • model quality/latency • AI-independent compatibility • Standard history vs AI-context retention&lt;br&gt;Approval/callback and S3/DynamoDB consistency • worker timeout/cancellation • API/file limits&lt;br&gt;Active-work expiry coordination • durable-data backup/RPO • numeric quotas and retention windows" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFF3E4;strokeColor=#C88838;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="70" y="860" width="1340" height="155" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" value="No customer VPC/subnet requirement selected. Event buses/Pipes, Streams, SQS and S3-event starts are not selected intermediate hops.&lt;br&gt;CloudWatch/SNS are not a hard spend cap. Solid = data/task dependency; dashed = asynchronous trigger/delivery.&lt;br&gt;This is an architecture draft, not a compliance, implementation or cost guarantee." style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=16;fontColor=#34445C;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="65" y="1050" width="1350" height="95" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
