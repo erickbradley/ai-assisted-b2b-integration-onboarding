@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<mxfile host="app.diagrams.net" modified="2026-11-14T00:00:00.000Z" type="device">
+<mxfile host="app.diagrams.net" modified="2026-11-17T00:00:00.000Z" type="device">
   <diagram id="kgc4ujPnM6lxcchIX9fw" name="1 - AWS service overview">
     <mxGraphModel grid="1" gridSize="10" guides="1" connect="1" arrows="1" page="1" pageWidth="1480" pageHeight="1440" adaptiveColors="auto" background="#FFFFFF">
       <root>
@@ -8,7 +8,7 @@
         <mxCell id="title" value="&lt;b&gt;AI-assisted B2B integration onboarding&lt;/b&gt;" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=25;fontColor=#34445C;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="40" y="15" width="1400" height="45" as="geometry" />
         </mxCell>
-        <mxCell id="subtitle" value="First architecture draft • 2026-11-14 • AWS managed-service boundaries; no customer VPC/subnet placement selected" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=16;fontColor=#34445C;spacing=8;" vertex="1" parent="1">
+        <mxCell id="subtitle" value="Architecture draft • 2026-11-17 • Logical service dependencies; see page 4 for selected network boundaries" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=16;fontColor=#34445C;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="40" y="65" width="1400" height="55" as="geometry" />
         </mxCell>
         <mxCell id="visitor" value="&lt;b&gt;Demo visitor&lt;/b&gt;&lt;br&gt;Upload • review • poll • download" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#7C8795;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;" vertex="1" parent="1">
@@ -20,8 +20,8 @@
         <mxCell id="dns-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#8C4FFF;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.route_53;labelPerimeter=1;" vertex="1" parent="dns">
           <mxGeometry x="12" y="26.5" width="42" height="42" as="geometry" />
         </mxCell>
-        <mxCell id="turn" value="&lt;b&gt;Cloudflare Turnstile&lt;/b&gt;&lt;br&gt;Widget + backend Siteverify" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#7C8795;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;" vertex="1" parent="1">
-          <mxGeometry x="1090" y="145" width="320" height="95" as="geometry" />
+        <mxCell id="turn" value="&lt;b&gt;Cloudflare Turnstile&lt;/b&gt;&lt;br&gt;Verify before demo access&lt;br&gt;Reuse valid verified sessions" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#7C8795;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="145" width="320" height="115" as="geometry" />
         </mxCell>
         <mxCell id="cdn" value="&lt;b&gt;CloudFront + ACM&lt;/b&gt;&lt;br&gt;HTTPS • certificate in us-east-1" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#EEF4FF;strokeColor=#426A9B;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;spacingLeft=60;" vertex="1" parent="1">
           <mxGeometry x="70" y="330" width="320" height="95" as="geometry" />
@@ -131,7 +131,7 @@
         <mxCell id="edge-15" value="Store permitted" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#65758B;strokeWidth=1.5;fontColor=#34445C;fontSize=14;labelBackgroundColor=#FFFFFF;defaultLabelBackgroundColor=page;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="executor" target="artifacts">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="notes" value="&lt;b&gt;Additional relationships are detailed on pages 2–3.&lt;/b&gt; Executor reads private input and records outcomes in DynamoDB; backend delivers retained files.&lt;br&gt;Artifacts are not public frontend origins. Bucket/table counts and backend operation grouping remain open.&lt;br&gt;&lt;b&gt;Legend:&lt;/b&gt; dashed = asynchronous handoff or configuration association; solid = task/data dependency. All relationships are conceptual." style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=16;fontColor=#34445C;spacing=8;" vertex="1" parent="1">
+        <mxCell id="notes" value="&lt;b&gt;Additional relationships are detailed on pages 2–4.&lt;/b&gt; Executor reads private input and records outcomes in DynamoDB; backend delivers retained files.&lt;br&gt;Artifacts are not public frontend origins. Bucket/table counts remain proposed. Page 4 separates public entry, private data access and actual VPC connectivity." style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=16;fontColor=#34445C;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="45" y="1160" width="1390" height="125" as="geometry" />
         </mxCell>
         <mxCell id="open" value="&lt;b&gt;Open before implementation:&lt;/b&gt; engine selection • compatibility method • model/prompt • managed-history privacy&lt;br&gt;Approval/callback and S3/DynamoDB consistency • timeout/cancellation • cost and request-size feasibility&lt;br&gt;Monitoring/cleanup/SNS and access/cost boundaries: page 3." style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=16;fontColor=#34445C;spacing=8;" vertex="1" parent="1">
@@ -339,8 +339,148 @@
         <mxCell id="open" value="&lt;b&gt;Validate before implementation commitments&lt;/b&gt;&lt;br&gt;Engine/library vs Glue • model quality/latency • AI-independent compatibility • Standard history vs AI-context retention&lt;br&gt;Approval/callback and S3/DynamoDB consistency • worker timeout/cancellation • API/file limits&lt;br&gt;Active-work expiry coordination • durable-data backup/RPO • numeric quotas and retention windows" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFF3E4;strokeColor=#C88838;fontColor=#172B4D;fontFamily=Helvetica;fontSize=17;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;" vertex="1" parent="1">
           <mxGeometry x="70" y="860" width="1340" height="155" as="geometry" />
         </mxCell>
-        <mxCell id="legend" value="No customer VPC/subnet requirement selected. Event buses/Pipes, Streams, SQS and S3-event starts are not selected intermediate hops.&lt;br&gt;CloudWatch/SNS are not a hard spend cap. Solid = data/task dependency; dashed = asynchronous trigger/delivery.&lt;br&gt;This is an architecture draft, not a compliance, implementation or cost guarantee." style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=16;fontColor=#34445C;spacing=8;" vertex="1" parent="1">
+        <mxCell id="legend" value="Restricted workers: private-subnet connectivity, no general internet route (page 4). Application backend: default Lambda networking; outbound-filtering exception.&lt;br&gt;Event buses/Pipes, Streams, SQS and S3-event starts remain unselected. Solid = data/task dependency; dashed = asynchronous/control relationship." style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=16;fontColor=#34445C;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="65" y="1050" width="1350" height="95" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="network-boundaries-v1" name="4 - Network boundaries">
+    <mxGraphModel grid="1" gridSize="10" guides="1" connect="1" arrows="1" page="1" pageWidth="1600" pageHeight="1630" adaptiveColors="auto" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n-title" value="&lt;b&gt;Network boundaries and access controls&lt;/b&gt;" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=18;spacing=8;fontFamily=Helvetica;fontColor=#172B4D;fontSize=27;" vertex="1" parent="1">
+          <mxGeometry x="40" y="15" width="1520" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="n-subtitle" value="Selected direction • 2026-11-17 • Design only; runtime, Region and detailed subnet/AZ layout remain to validate" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=18;spacing=8;fontFamily=Helvetica;fontColor=#172B4D;" vertex="1" parent="1">
+          <mxGeometry x="40" y="70" width="1520" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="n-turn" value="&lt;b&gt;Cloudflare Turnstile&lt;/b&gt;&lt;br&gt;External Siteverify API" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F7FF;strokeColor=#7893B7;fontSize=18;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;fontFamily=Helvetica;fontColor=#172B4D;fillColor=#F3F4F6;" vertex="1" parent="1">
+          <mxGeometry x="60" y="165" width="300" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="n-cdn" value="&lt;b&gt;CloudFront + ACM&lt;/b&gt;&lt;br&gt;Global website delivery&lt;br&gt;Route 53 resolves demo hostname" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F7FF;strokeColor=#7893B7;fontSize=18;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;fontFamily=Helvetica;fontColor=#172B4D;spacingLeft=48;" vertex="1" parent="1">
+          <mxGeometry x="610" y="155" width="360" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="n-cdn-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#8C4FFF;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudfront;labelPerimeter=1;" vertex="1" parent="n-cdn">
+          <mxGeometry x="12" y="14" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="n-visitor" value="&lt;b&gt;Visitor browser&lt;/b&gt;&lt;br&gt;HTTPS entry&lt;br&gt;Verified session required for use" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F7FF;strokeColor=#7893B7;fontSize=18;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;fontFamily=Helvetica;fontColor=#172B4D;fillColor=#F3F4F6;" vertex="1" parent="1">
+          <mxGeometry x="1210" y="155" width="320" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="n-region" value="AWS Region — managed services plus customer VPC" style="swimlane;startSize=44;horizontal=1;container=1;collapsible=0;html=1;whiteSpace=wrap;align=left;spacingLeft=14;fillColor=#EAF2FB;swimlaneFillColor=#FFFFFF;strokeColor=#6B829C;strokeWidth=2;fontSize=20;fontStyle=1;fontFamily=Helvetica;fontColor=#172B4D;" vertex="1" parent="1">
+          <mxGeometry x="40" y="350" width="1520" height="1030" as="geometry" />
+        </mxCell>
+        <mxCell id="n-api" value="&lt;b&gt;API Gateway HTTP API&lt;/b&gt;&lt;br&gt;Public API entry&lt;br&gt;Session and usage enforcement" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F7FF;strokeColor=#7893B7;fontSize=18;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;fontFamily=Helvetica;fontColor=#172B4D;spacingLeft=48;" vertex="1" parent="n-region">
+          <mxGeometry x="30" y="65" width="320" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="n-api-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#8C4FFF;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.api_gateway;labelPerimeter=1;" vertex="1" parent="n-api">
+          <mxGeometry x="12" y="14" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="n-web" value="&lt;b&gt;S3 frontend bucket&lt;/b&gt;&lt;br&gt;Private origin&lt;br&gt;CloudFront OAC" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F7FF;strokeColor=#7893B7;fontSize=18;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;fontFamily=Helvetica;fontColor=#172B4D;spacingLeft=48;" vertex="1" parent="n-region">
+          <mxGeometry x="570" y="65" width="360" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="n-web-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#7AA116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;labelPerimeter=1;" vertex="1" parent="n-web">
+          <mxGeometry x="12" y="14" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="n-backend" value="&lt;b&gt;Application backend — Lambda&lt;/b&gt;&lt;br&gt;Entry / intake / approval / results&lt;br&gt;No customer-VPC attachment&lt;br&gt;General outbound access retained" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F7FF;strokeColor=#7893B7;fontSize=18;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;fontFamily=Helvetica;fontColor=#172B4D;spacingLeft=48;" vertex="1" parent="n-region">
+          <mxGeometry x="30" y="280" width="350" height="155" as="geometry" />
+        </mxCell>
+        <mxCell id="n-backend-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;labelPerimeter=1;" vertex="1" parent="n-backend">
+          <mxGeometry x="12" y="14" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="n-exception" value="&lt;b&gt;Explicit v1 exception&lt;/b&gt;&lt;br&gt;Cloudflare URL fixed in code.&lt;br&gt;Not a network destination allowlist.&lt;br&gt;Revisit for production obligations." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E7;strokeColor=#CDA34D;fontSize=17;spacing=12;align=left;verticalAlign=middle;fontFamily=Helvetica;fontColor=#172B4D;" vertex="1" parent="n-region">
+          <mxGeometry x="30" y="490" width="350" height="145" as="geometry" />
+        </mxCell>
+        <mxCell id="n-sf" value="&lt;b&gt;Step Functions&lt;/b&gt;&lt;br&gt;Authorized task invocations&lt;br&gt;Scheduler invokes cleanup" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F7FF;strokeColor=#7893B7;fontSize=18;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;fontFamily=Helvetica;fontColor=#172B4D;spacingLeft=48;" vertex="1" parent="n-region">
+          <mxGeometry x="30" y="740" width="350" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="n-sf-icon" value="" style="shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.step_functions;fillColor=#CD2264;strokeColor=none;html=1;" vertex="1" parent="n-sf">
+          <mxGeometry x="12" y="14" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="n-vpc" value="Customer VPC — restricted-worker connectivity" style="swimlane;startSize=44;horizontal=1;container=1;collapsible=0;html=1;whiteSpace=wrap;align=left;spacingLeft=14;fillColor=#EDE8F8;swimlaneFillColor=#FFFFFF;strokeColor=#6B829C;strokeWidth=2;fontSize=20;fontStyle=1;fontFamily=Helvetica;fontColor=#172B4D;" vertex="1" parent="n-region">
+          <mxGeometry x="430" y="270" width="1060" height="620" as="geometry" />
+        </mxCell>
+        <mxCell id="n-private" value="Private subnet(s) — count and AZ layout TBD" style="swimlane;startSize=44;horizontal=1;container=1;collapsible=0;html=1;whiteSpace=wrap;align=left;spacingLeft=14;fillColor=#E5F4EA;swimlaneFillColor=#FFFFFF;strokeColor=#6B829C;strokeWidth=2;fontSize=20;fontStyle=1;fontFamily=Helvetica;fontColor=#172B4D;" vertex="1" parent="n-vpc">
+          <mxGeometry x="30" y="85" width="620" height="410" as="geometry" />
+        </mxCell>
+        <mxCell id="n-search" value="&lt;b&gt;Mapping-search Lambda&lt;/b&gt;&lt;br&gt;Required AWS access only" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F7FF;strokeColor=#7893B7;fontSize=18;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;fontFamily=Helvetica;fontColor=#172B4D;spacingLeft=48;" vertex="1" parent="n-private">
+          <mxGeometry x="25" y="75" width="270" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="n-search-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;labelPerimeter=1;" vertex="1" parent="n-search">
+          <mxGeometry x="12" y="14" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="n-executor" value="&lt;b&gt;Executor&lt;/b&gt;&lt;br&gt;Lambda candidate shown&lt;br&gt;Engine/runtime still open" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F7FF;strokeColor=#7893B7;fontSize=18;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;fontFamily=Helvetica;fontColor=#172B4D;" vertex="1" parent="n-private">
+          <mxGeometry x="325" y="75" width="270" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="n-cleanup" value="&lt;b&gt;Cleanup Lambda&lt;/b&gt;&lt;br&gt;Required AWS access only" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F7FF;strokeColor=#7893B7;fontSize=18;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;fontFamily=Helvetica;fontColor=#172B4D;spacingLeft=48;" vertex="1" parent="n-private">
+          <mxGeometry x="25" y="240" width="270" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="n-cleanup-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;labelPerimeter=1;" vertex="1" parent="n-cleanup">
+          <mxGeometry x="12" y="14" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="n-policy" value="&lt;b&gt;No general internet route&lt;/b&gt;&lt;br&gt;No NAT selected&lt;br&gt;Check all runtime dependencies" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E7;strokeColor=#CDA34D;fontSize=17;spacing=12;align=left;verticalAlign=middle;fontFamily=Helvetica;fontColor=#172B4D;" vertex="1" parent="n-private">
+          <mxGeometry x="325" y="240" width="270" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="n-s3ep" value="&lt;b&gt;S3 gateway endpoint&lt;/b&gt;&lt;br&gt;Restricted worker access" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F7FF;strokeColor=#7893B7;fontSize=18;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;fontFamily=Helvetica;fontColor=#172B4D;" vertex="1" parent="n-vpc">
+          <mxGeometry x="740" y="135" width="280" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="n-ddep" value="&lt;b&gt;DynamoDB gateway endpoint&lt;/b&gt;&lt;br&gt;Restricted worker access" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F7FF;strokeColor=#7893B7;fontSize=18;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;fontFamily=Helvetica;fontColor=#172B4D;" vertex="1" parent="n-vpc">
+          <mxGeometry x="740" y="335" width="280" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="n-vpcnote" value="Lambda boxes represent VPC network connectivity; execution stays AWS-managed.&lt;br&gt;Gateway endpoints are VPC routing targets, not subnet-hosted S3/DynamoDB." style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=18;spacing=8;fontFamily=Helvetica;fontColor=#172B4D;fontSize=16;" vertex="1" parent="n-vpc">
+          <mxGeometry x="25" y="515" width="660" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="n-data" value="&lt;b&gt;S3 business-data buckets&lt;/b&gt;&lt;br&gt;Originals / results / rejections&lt;br&gt;Outside customer VPC" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F7FF;strokeColor=#7893B7;fontSize=18;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;fontFamily=Helvetica;fontColor=#172B4D;spacingLeft=48;" vertex="1" parent="n-region">
+          <mxGeometry x="1130" y="65" width="350" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="n-data-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#7AA116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;labelPerimeter=1;" vertex="1" parent="n-data">
+          <mxGeometry x="12" y="14" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="n-ddb" value="&lt;b&gt;DynamoDB&lt;/b&gt;&lt;br&gt;Mappings / approval / run state / audit&lt;br&gt;Outside customer VPC" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#F3F7FF;strokeColor=#7893B7;fontSize=18;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.5;fontFamily=Helvetica;fontColor=#172B4D;spacingLeft=48;" vertex="1" parent="n-region">
+          <mxGeometry x="740" y="930" width="650" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="n-ddb-icon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#C925D1;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.dynamodb;labelPerimeter=1;" vertex="1" parent="n-ddb">
+          <mxGeometry x="12" y="14" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="n-managed" value="&lt;b&gt;Other managed services stay outside the customer VPC:&lt;/b&gt; Bedrock, CloudWatch, SNS and the selected scheduler.&lt;br&gt;Required SDK calls, endpoint needs and costs must be inventoried; invoke permissions still apply." style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=18;spacing=8;fontFamily=Helvetica;fontColor=#172B4D;fontSize=16;" vertex="1" parent="n-region">
+          <mxGeometry x="30" y="925" width="650" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n-gate" value="&lt;b&gt;Anonymous access:&lt;/b&gt; verification first on screen; valid verified sessions can be reused, including bookmarks.&lt;br&gt;Backend validates new Turnstile tokens and enforces session/workspace access and usage limits on protected operations." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E7;strokeColor=#CDA34D;fontSize=17;spacing=12;align=left;verticalAlign=middle;fontFamily=Helvetica;fontColor=#172B4D;" vertex="1" parent="1">
+          <mxGeometry x="45" y="1410" width="1510" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="n-legend" value="&lt;b&gt;Read this page:&lt;/b&gt; container borders = actual proposed network containment; arrows = selected access relationships.&lt;br&gt;Not all application dependencies are repeated. Other pages show logical flow. Private data does not imply private-subnet placement." style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=18;spacing=8;fontFamily=Helvetica;fontColor=#172B4D;fontSize=17;" vertex="1" parent="1">
+          <mxGeometry x="45" y="1510" width="1510" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="ne-web" value="OAC" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#536B85;strokeWidth=1.8;fontFamily=Helvetica;fontSize=15;fontColor=#34445C;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="n-cdn" target="n-web">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ne-browser-web" value="HTTPS" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#536B85;strokeWidth=1.8;fontFamily=Helvetica;fontSize=15;fontColor=#34445C;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.3;entryX=1;entryY=0.3;" edge="1" parent="1" source="n-visitor" target="n-cdn">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ne-browser-api" value="HTTPS API" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#536B85;strokeWidth=1.8;fontFamily=Helvetica;fontSize=15;fontColor=#34445C;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="n-visitor" target="n-api">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ne-api" value="Invoke" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#536B85;strokeWidth=1.8;fontFamily=Helvetica;fontSize=15;fontColor=#34445C;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="n-region" source="n-api" target="n-backend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ne-verify" value="Siteverify" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#536B85;strokeWidth=1.8;fontFamily=Helvetica;fontSize=15;fontColor=#34445C;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.3;entryX=0;entryY=0.7;" edge="1" parent="1" source="n-backend" target="n-turn">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ne-invoke" value="IAM invoke" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#536B85;strokeWidth=1.8;fontFamily=Helvetica;fontSize=15;fontColor=#34445C;labelBackgroundColor=#FFFFFF;dashed=1;exitX=1;exitY=0.9;entryX=0;entryY=0.8;" edge="1" parent="n-region" source="n-sf" target="n-private">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ne-s3" value="S3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#536B85;strokeWidth=1.8;fontFamily=Helvetica;fontSize=15;fontColor=#34445C;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.2;entryX=0;entryY=0.5;" edge="1" parent="n-vpc" source="n-private" target="n-s3ep">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ne-ddb" value="DynamoDB" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#536B85;strokeWidth=1.8;fontFamily=Helvetica;fontSize=15;fontColor=#34445C;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.7;entryX=0;entryY=0.5;" edge="1" parent="n-vpc" source="n-private" target="n-ddep">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ne-s3-out" value="Object API" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#536B85;strokeWidth=1.8;fontFamily=Helvetica;fontSize=15;fontColor=#34445C;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" edge="1" parent="n-region" source="n-s3ep" target="n-data">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ne-ddb-out" value="Item API" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#536B85;strokeWidth=1.8;fontFamily=Helvetica;fontSize=15;fontColor=#34445C;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.9;entryY=0;" edge="1" parent="n-region" source="n-ddep" target="n-ddb">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

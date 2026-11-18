@@ -1,11 +1,13 @@
 # Architecture orchestration and communication
 
 Status: First-draft architecture decision record; selections from the seven-stage whiteboard review, not a deployed or validated implementation.
-Updated: 2026-11-14
+Updated: 2026-11-17
 
 ## Scope and ownership
 
 This ADR records orchestration, communication and enforcement boundaries for support-ticket CSV onboarding into the CRM-shaped Support Case contract. The [functional requirements](functional-requirements-v1.md), [NFRs](nonfunctional-requirements-v1.md) and [contract](support-case-contract-v1.md) remain authoritative for behavior. The [service matrix](aws-service-mapping-draft.md) allocates AWS resources; [logical workflows](architecture-workflows.md) describe the paths.
+
+For the subsequent network and anonymous-access decisions, see the [network-boundaries ADR](adr-network-boundaries.md). It selects restricted worker connectivity and an explicit application-backend exception; deployment remains unvalidated.
 
 All seven stages were reviewed: entry/intake, mapping, review/approval, transformation, results/audit, reuse/reprocessing, and background operations. This completes a responsibility-level pass, not all architecture work. Model, execution engine, detailed protocols, costs and several consistency mechanisms remain unvalidated.
 
@@ -28,7 +30,7 @@ These are responsibility boundaries. They do not prescribe one deployed Lambda p
 
 ## 1. Entry and intake
 
-Human verification and session handling remain outside Step Functions. Keep their logic modular within one entry backend rather than deploy an independent verification service without a concrete need. Backend validation of Turnstile evidence grants demo eligibility; an existing browser session credential associates the visitor with its workspace. Otherwise create a temporary anonymous session/workspace. A human challenge is not proof of personal identity or a guarantee against automation (FR-047).
+Human verification and session handling remain outside Step Functions. Keep their logic modular within one entry backend rather than deploy an independent verification service without a concrete need. Backend validation of Turnstile evidence grants demo eligibility; an existing browser session credential associates the visitor with its workspace. Otherwise validate fresh Turnstile evidence and create a temporary anonymous session/workspace. A valid verified application session may be reused on direct or bookmarked entry; no accounts or passwords are selected. Static assets may load first, but protected functionality remains disabled until access is established and every protected request is checked. Session duration and credential implementation remain open. A human challenge is not proof of personal identity or a guarantee against automation (FR-047).
 
 Uploads pass through the backend. Check format, readability and parsed-record limits, then screen for suspected prohibited data before retaining an accepted original. If flagged, require the FR-044A false-positive assertion or reject; acceptance does not authorize actual prohibited content. Detection and visitor acknowledgment do not prove safe content or establish compliance. Temporary buffering, abandoned-upload cleanup and size bounds remain implementation work.
 
@@ -98,7 +100,7 @@ S3 events, DynamoDB Streams, EventBridge event buses/Pipes and SQS remain availa
 
 | Decision | Reason | Consequence or validation |
 | --- | --- | --- |
-| Modular entry backend | Separate responsibilities without unnecessary services | Session credential and re-verification policy open |
+| Modular entry backend | Separate responsibilities without unnecessary services | Credential/lifetime open; reuse valid verified sessions, verify missing/expired sessions |
 | Backend intake and explicit start | Validate before retention; current uploader already owns next action | Storage/start gap must be reconciled |
 | Standard orchestration plus domain tasks | Managed process coordination; testable mapping/execution logic | Callback timeout, permissions and worker cancellation need proof |
 | Direct Bedrock call | Avoid forwarding-only Lambda | AI-context/history retention can force reconsideration |
@@ -113,9 +115,10 @@ Before implementation commitments: compare Glue versus a packaged engine; test m
 
 ## Diagram and references
 
-- [Editable AWS architecture](../assets/diagrams/aws-architecture.drawio): service overview, approval/execution flow and operations pages.
+- [Editable AWS architecture](../assets/diagrams/aws-architecture.drawio): service overview, approval/execution flow, operations and network-boundary pages.
 - [Logical architecture](logical-architecture.md), [workflows](architecture-workflows.md) and [service mapping](aws-service-mapping-draft.md).
 - AWS: [workflow types](https://docs.aws.amazon.com/step-functions/latest/dg/choosing-workflow-type.html), [callback patterns](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html), [service integrations](https://docs.aws.amazon.com/step-functions/latest/dg/integrate-services.html), [Scheduler targets](https://docs.aws.amazon.com/scheduler/latest/UserGuide/managing-targets-templated.html).
 - [Turnstile server validation](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/) and [S3 presigned access](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html).
 
 Decisions reflect Erick's iterative whiteboard choices. Proposed scheduler allocation, physical bucket/table grouping, unresolved engineering mechanisms and unvalidated feasibility are explicitly labeled rather than presented as implemented facts.
+
